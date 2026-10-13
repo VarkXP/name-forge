@@ -329,7 +329,7 @@
 
   /* title */
   #intro .t-title { font: 900 clamp(38px, 8.4vw, 104px)/1 var(--display); letter-spacing: .06em; margin: 0; color: var(--gold-2); text-shadow: 0 0 40px rgba(217,169,70,.35), 0 3px 0 #000; }
-  #intro .t-title .w { display: inline-block; white-space: nowrap; }
+  #intro .w { display: inline-block; white-space: nowrap; }
   #intro .t-title .l { display: inline-block; opacity: 0; transform: translateY(-.6em) scale(1.6); filter: blur(10px); }
   #intro .scene.on .t-title .l { animation: ibLetter .6s cubic-bezier(.2,1.4,.4,1) forwards; animation-delay: calc(var(--i) * 45ms); }
   @keyframes ibLetter { to { opacity: 1; transform: none; filter: none; } }
@@ -428,7 +428,7 @@
   #intro .gnav .crumb i { width: 8px; height: 8px; border-radius: 50%; background: var(--cc, var(--gold)); display: inline-block; }
   #intro .gnav .crumb img { width: 18px; height: 18px; border-radius: 50%; object-fit: cover; margin: -4px 0; }
   #intro .gnav .crumb .ico { width: 14px; height: 14px; color: var(--cc); }
-  @media (max-width: 760px) { #intro .gnav { right: 16px; top: 64px; } #intro .gnav .crumb { display: none; } #intro [data-s=guide] { align-content: start; padding-top: 108px; } #intro .gbody { max-height: calc(100vh - 150px); max-height: calc(100dvh - 150px); } }
+  @media (max-width: 760px) { #intro .gsteps { display: none !important; } #intro .gbody { padding-bottom: 28px; } #intro .gnav { right: 16px; top: 64px; } #intro .gnav .crumb { display: none; } #intro [data-s=guide] { align-content: start; padding-top: 108px; } #intro .gbody { max-height: calc(100vh - 150px); max-height: calc(100dvh - 150px); } }
   #intro .gsteps { position: absolute; left: 50%; bottom: 22px; translate: -50% 0; display: flex; gap: 8px; z-index: 3; }
   #intro .gsteps i { width: 28px; height: 4px; border-radius: 2px; background: #ffffff22; transition: background .3s; }
   #intro .gsteps i.done { background: var(--gold); } #intro .gsteps i.now { background: var(--gold-2); box-shadow: 0 0 10px var(--gold); }
@@ -459,6 +459,8 @@
   #intro .gopt .gs { color: var(--ink-2); font-size: 14px; line-height: 1.35; }
   #intro .gopt .gx { font: 700 15px/1.2 var(--display); color: var(--ink); background: #0008; border: 1px dashed color-mix(in srgb, var(--cc) 50%, transparent); border-radius: 8px; padding: 6px 8px; width: 100%; }
   #intro .gopt .gx small { display: block; font: 500 10px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+  #intro .gopt .gx, #intro .gopt .gs, #intro .gopt b { overflow-wrap: anywhere; max-width: 100%; }
+  @media (max-width: 400px) { #intro .gopt .gx { font-size: 13px; } #intro .gopt b { font-size: 15px; } }
   #intro .gopt kbd { position: absolute; top: 8px; left: 8px; font: 700 10px/1 var(--display); color: var(--ink-3); border: 1px solid var(--line); border-radius: 4px; padding: 3px 5px; }
   #intro .gopts.wide .gopt { --w: 300px; padding: 26px 20px 22px; }
   #intro .gopts.wide .gopt img { width: 96px; height: 96px; }
@@ -501,6 +503,24 @@
   #intro .cd { font: 900 clamp(110px, 22vw, 240px)/1 var(--display); color: var(--gold-2); text-shadow: 0 0 80px rgba(217,169,70,.6); animation: ibCd .9s ease both; }
   @keyframes ibCd { 0% { opacity: 0; transform: scale(2.4); filter: blur(12px); } 25% { opacity: 1; transform: none; filter: none; } 80% { opacity: 1; } 100% { opacity: 0; transform: scale(.7); } }
   #intro .cd-hype { font: 700 clamp(16px, 2.2vw, 22px)/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-2); }
+  #intro .gmine { display: grid; justify-items: center; gap: 12px; width: min(560px, 100%); }
+  #intro .gmine input { font: 700 clamp(24px, 5vw, 40px)/1.1 var(--display); text-align: center; letter-spacing: .04em; color: var(--gold-2); background: rgba(14,19,22,.85); border: 1px solid var(--gold); border-radius: 12px; padding: 14px 16px; width: 100%; box-shadow: 0 0 30px rgba(217,169,70,.2); outline: none; }
+  #intro .gmine input:focus { box-shadow: 0 0 0 2px var(--gold-2), 0 0 40px rgba(217,169,70,.35); }
+  #intro .gmine input::placeholder { color: var(--ink-3); font-weight: 500; }
+  #intro .gmine input.shake { animation: ibShake .4s; }
+  #intro .gmpos { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  #intro .gmpos button { font: 700 12px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); background: rgba(14,19,22,.7); border: 1px solid var(--line); border-radius: 999px; padding: 10px 14px; cursor: pointer; }
+  #intro .gmpos button.on { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
+  #intro .gmprev { margin: 0; color: var(--ink-2); font-size: 16px; min-height: 1.5em; }
+  #intro .gmprev b { font-family: var(--display); color: var(--ink); }
+  #intro .gmprev.err { color: var(--horde); }
+  #intro .lk { font: inherit; color: inherit; letter-spacing: inherit; text-shadow: inherit; background: none; border: 0; border-bottom: 3px dashed transparent; padding: 0 .02em; margin: 0; cursor: pointer; transition: border-color .2s, color .2s; display: inline-flex; align-items: center; gap: .12em; }
+  #intro .lk:hover, #intro .lk:focus-visible { border-bottom-color: color-mix(in srgb, var(--gold) 60%, transparent); outline: none; }
+  #intro .lk.locked, #intro .lk.mine { color: var(--gold-2); border-bottom: 3px solid var(--gold); }
+  #intro .lk.mine { cursor: default; }
+  #intro .lki { width: .32em; height: .32em; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  #intro .rv-hint { margin: 0; font-size: 15px; color: var(--ink-2); min-height: 1.4em; }
+  #intro .rv-hint b { color: var(--gold-2); font-family: var(--display); }
   #intro .gbanner { width: 112px; height: 112px; border-radius: 50%; display: grid; place-items: center; border: 3px solid var(--cc); background: radial-gradient(circle, color-mix(in srgb, var(--cc) 30%, #000), #0b0f11); color: var(--cc); box-shadow: 0 0 30px color-mix(in srgb, var(--cc) 45%, transparent); animation: ibPop .6s cubic-bezier(.2,1.5,.4,1) both; }
   #intro .gbanner svg { width: 52px; height: 52px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 </style>
@@ -959,11 +979,28 @@
   var SFX = (function () {
     var ctx = null, master = null, on = true;
     try { on = localStorage.getItem("forge-sound") !== "off"; } catch (e) {}
+    // Phones pause or "interrupt" page audio when you switch apps (WhatsApp, a call, the lock screen).
+    // So: wake it on every tap, rebuild it if the phone killed it, and check again whenever the page comes back.
+    var stuckSince = 0;
+    function fresh(AC) { try { if (ctx && ctx.close) ctx.close(); } catch (e) {} ctx = new AC(); master = ctx.createGain(); master.gain.value = 0.55; master.connect(ctx.destination); stuckSince = 0; }
     function boot() {
-      if (ctx) { if (ctx.state === "suspended") ctx.resume(); return true; }
       var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return false;
-      ctx = new AC(); master = ctx.createGain(); master.gain.value = 0.55; master.connect(ctx.destination); return true;
+      if (!ctx || ctx.state === "closed") fresh(AC);
+      if (ctx.state !== "running") {
+        if (!stuckSince) stuckSince = Date.now();
+        else if (Date.now() - stuckSince > 1500) fresh(AC);    // resume never came back: start over
+        try { var pr = ctx.resume(); if (pr && pr.then) pr.then(function () { if (ctx.state === "running") stuckSince = 0; }, function () {}); } catch (e) {}
+      } else stuckSince = 0;
+      return true;
     }
+    function unlock() {
+      if (!on) return;
+      if (!boot()) return;
+      try { var b = ctx.createBuffer(1, 1, 22050), src = ctx.createBufferSource(); src.buffer = b; src.connect(ctx.destination); src.start(0); } catch (e) {}
+    }
+    ["pointerdown", "touchend", "keydown", "click"].forEach(function (ev) { window.addEventListener(ev, unlock, { capture: true, passive: true }); });
+    function revive() { if (document.visibilityState === "visible" && ctx && ctx.state !== "running") { try { ctx.resume(); } catch (e) {} } }
+    document.addEventListener("visibilitychange", revive); window.addEventListener("pageshow", revive); window.addEventListener("focus", revive);
     function tone(freq, dur, type, vol, when, slideTo) {
       if (!on || !boot()) return;
       var t = ctx.currentTime + (when || 0), o = ctx.createOscillator(), g = ctx.createGain();
@@ -1936,14 +1973,31 @@
       }).join("");
       $("ibstyles").innerHTML = ["lore", "forged", "epic", "meme", "pop", "screen", "history", "trades", "codex", "guild"].map(function (k) { return '<span data-k="' + k + '" style="--sc:var(' + STY[k][1] + ')">' + esc(STY[k][0]) + "</span>"; }).join("");
     }
+    // Shrink big text until its longest word fits the screen (Cinzel is wide, phones are narrow)
+    function fit(elm, html) {
+      if (!elm) return;
+      elm.style.fontSize = "";
+      if (html !== undefined) elm.innerHTML = html;
+      var avail = Math.min(window.innerWidth - 36, 980), widest = 0, ws = elm.querySelectorAll(".w");
+      if (ws.length) ws.forEach(function (w) { widest = Math.max(widest, w.offsetWidth); }); else widest = elm.scrollWidth;
+      if (widest > avail) elm.style.fontSize = Math.floor(parseFloat(getComputedStyle(elm).fontSize) * avail / widest) + "px";
+    }
+    function wordsHtml(text, scrambleFrom) {
+      var A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", out = '<span class="w">';
+      for (var c = 0; c < text.length; c++) {
+        if (text[c] === " ") { out += '</span> <span class="w">'; continue; }
+        out += scrambleFrom === undefined || c < scrambleFrom || /[<>]/.test(text[c]) ? esc(text[c]) : '<span class="s">' + A[Math.floor(Math.random() * 26)] + "</span>";
+      }
+      return out + "</span>";
+    }
     // slot-machine text: scrambles, then locks letters left to right
     function spinText(elm, text, at, dur, done, quietTicks) {
-      var A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", steps = Math.max(4, Math.round(dur / 45));
+      var steps = Math.max(4, Math.round(dur / 45));
+      later(function () { fit(elm, wordsHtml(text)); }, at - 1 > 0 ? at - 1 : 0);
       for (var s = 0; s <= steps; s++) (function (s) {
         later(function () {
-          var lockN = Math.floor(text.length * s / steps), out = "";
-          for (var c = 0; c < text.length; c++) out += c < lockN || /[ <>]/.test(text[c]) ? esc(text[c]) : '<span class="s">' + A[Math.floor(Math.random() * 26)] + "</span>";
-          elm.innerHTML = out; elm.classList.remove("lock");
+          var lockN = Math.floor(text.length * s / steps);
+          elm.innerHTML = wordsHtml(text, lockN); elm.classList.remove("lock");
           if (s % 2 === 0 && s < steps && !quietTicks) SFX.tick();
           if (s === steps) { void elm.offsetWidth; elm.classList.add("lock"); if (done) done(); }
         }, at + s * 45);
@@ -1959,7 +2013,7 @@
       clearAll();
       el.classList.add("bg-on");
       var prog = $("ibprog"); prog.className = "progress"; prog.style.setProperty("--dur", "16.2s"); void prog.offsetWidth; prog.classList.add("run");
-      strike(); $("ibtitle").innerHTML = letters("Forever Name Forge"); $("ibtitle").classList.remove("glow"); show("title");
+      strike(); fit($("ibtitle"), letters("Forever Name Forge")); $("ibtitle").classList.remove("glow"); show("title");
       later(function () { SFX.whoosh(); }, 650); later(function () { $("ibtitle").classList.add("glow"); SFX.star(true); }, 1100);
       later(function () { show("tag"); }, 2700);
       stage.querySelectorAll(".tag span").forEach(function (sp, i) { sp.classList.remove("in"); later(function () { sp.classList.add("in"); SFX.thud(i); }, 2850 + i * 430); });
@@ -1977,7 +2031,7 @@
         t += 780;
       });
       var tc = Math.max(t + 200, 11600), vars = VAR.all();
-      later(function () { show("count"); $("ibcount").textContent = "0"; $("ibccap").textContent = "hand-picked names"; $("ibccap").classList.remove("big2"); $("ibcrow").classList.remove("in"); SFX.whoosh(); }, tc);
+      later(function () { show("count"); fit($("ibcount"), fmt(vars)); $("ibcount").textContent = "0"; $("ibccap").textContent = "hand-picked names"; $("ibccap").classList.remove("big2"); $("ibcrow").classList.remove("in"); SFX.whoosh(); }, tc);
       countUp("ibcount", 0, charTotal, tc + 150, 1200, true);
       // then the number keeps climbing to every name the forge can build
       later(function () { var c = $("ibcount"); c.classList.remove("morph"); void c.offsetWidth; c.classList.add("morph"); strike(true); $("ibccap").innerHTML = '<span class="swap">possible names you can forge</span>'; $("ibccap").classList.add("big2"); }, tc + 1700);
@@ -2040,12 +2094,12 @@
     });
     window.addEventListener("resize", function () { if (!el.hidden) size(); });
     el.addEventListener("scroll", function () { if (el.scrollTop || el.scrollLeft) { el.scrollTop = 0; el.scrollLeft = 0; } });
-    return { open: open, close: close, show: show, choose: choose, strike: strike, spinText: spinText, later: later, clearAll: clearAll, letters: letters, STY: STY };
+    return { open: open, close: close, show: show, choose: choose, strike: strike, spinText: spinText, later: later, clearAll: clearAll, letters: letters, fit: fit, STY: STY };
   })();
 
   var Guide = (function () {
     var g = {}, path = null, idx = 0, steps = [], cur = null, more = [], busy = false;
-    var PATHS = { char: ["fac", "race", "cls", "gen", "style", "reveal"], guild: ["gfac", "gvibe", "reveal"], roll: ["rfac", "rtone", "reveal"] };
+    var PATHS = { char: ["fac", "race", "cls", "gen", "style", "mine", "reveal"], guild: ["gfac", "gvibe", "reveal"], roll: ["rfac", "rtone", "reveal"] };
     var SV = {
       shield: '<svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M12 7v9M8.5 10.5h7"/></svg>',
       axe: '<svg viewBox="0 0 24 24"><path d="M5 21 19 7"/><path d="M14 4c3 0 6 3 6 6l-4-1-3-3z"/><path d="M5 3l16 16"/><path d="M3 10c0-3 3-6 6-6L8 8l-3 3z"/></svg>',
@@ -2059,7 +2113,7 @@
     var CHAR_STYLES = [["mix", "Mix of everything", "A little of every style", "--gold"], ["lore", "Lore", "Sounds straight out of the game", "--lore"], ["forged", "Forged", "Hard-hitting race and class compounds", "--forged"], ["epic", "Epic", "Gods, titans and titles", "--epic"], ["codex", "Codex", "Serious, ranked and unique", "--codex"], ["meme", "Meme", "Raid jokes that land on a nameplate", "--meme"], ["pop", "Pop culture", "Actors, directors and stars, twisted", "--pop"], ["screen", "Screen & Page", "Films and books, split in two", "--screen"], ["history", "History & Infamy", "Legends and villains, bent", "--history"], ["trades", "Trades & Skills", "Built from what you do", "--trades"]];
     var VIBES = [["mix", "Mix", "--gold"], ["epic", "Epic", "--epic"], ["myth", "Mythic", "--history"], ["lore", "Warcraft", "--lore"], ["clever", "Clever", "--screen"], ["funny", "Funny", "--meme"], ["pop", "Pop culture", "--pop"], ["online", "Online picks", "--community"], ["gforged", "Forged", "--forged"]];
     function withState(o, fn) { var keep = {}; Object.keys(o).forEach(function (k) { keep[k] = state[k]; state[k] = o[k]; }); try { return fn(); } finally { Object.keys(keep).forEach(function (k) { state[k] = keep[k]; }); } }
-    function charState(style) { return { race: g.race, cls: g.cls, gender: g.gen || "both", style: style || g.style, mine: null, lockF: null, lockL: null }; }
+    function charState(style) { return { race: g.race, cls: g.cls, gender: g.gen || "both", style: style || g.style, mine: g.mine || null, minePos: g.minePos || "first", lockF: g.lockF || null, lockL: g.lockL || null }; }
     function racesFor(f) { return Object.keys(RACES).filter(function (r) { return RACES[r].faction === (f === "a" ? "alliance" : "horde") || r === "skyborne"; }); }
     function classesFor(race, f) { return RACES[race].classes.filter(function (c) { return race !== "skyborne" || (f === "a" ? c !== "shaman" : c !== "mage"); }); }
     function facCol(f) { return f === "a" ? "var(--alliance)" : f === "h" ? "var(--horde)" : "var(--sky)"; }
@@ -2105,8 +2159,8 @@
       var h = '<button type="button" data-g="restart">&#8635; Start over</button><button type="button" data-g="back">&#8249; Back</button>';
       var labels = { fac: function () { return [g.fac === "a" ? "Alliance" : "Horde", facCol(g.fac)]; }, gfac: function () { return [g.gfac === "a" ? "Alliance" : g.gfac === "h" ? "Horde" : "Either side", facCol(g.gfac === "any" ? "n" : g.gfac)]; }, rfac: function () { return [g.rfac === "a" ? "Alliance" : g.rfac === "h" ? "Horde" : "Fate decides", facCol(g.rfac === "any" ? "n" : g.rfac)]; },
         race: function () { return [RACES[g.race].label, facCol(g.fac), '<img src="' + portrait(g.race, g.gen === "f" ? "f" : "m", g.fac) + '" alt="">']; }, cls: function () { return [CLASS_LABEL[g.cls], CCOL[g.cls], icon(g.cls)]; }, gen: function () { return [g.gen === "m" ? "Male" : g.gen === "f" ? "Female" : "Either", "var(--gold)"]; },
-        style: function () { var s = CHAR_STYLES.filter(function (x) { return x[0] === g.style; })[0]; return [s[1], "var(" + s[3] + ")"]; }, gvibe: function () { var v = VIBES.filter(function (x) { return x[0] === g.gvibe; })[0]; return [v[1], "var(" + v[2] + ")"]; }, rtone: function () { return [{ serious: "Serious", funny: "Funny", any: "Anything goes" }[g.rtone], "var(--gold)"]; } };
-      for (var i = 0; i < idx && i < steps.length; i++) { var k = steps[i]; if (!labels[k] || g[k === "fac" ? "fac" : k] === undefined) continue; var L = labels[k](); h += '<button type="button" class="crumb" data-jump="' + i + '" style="--cc:' + L[1] + '" title="Change">' + (L[2] || "<i></i>") + esc(L[0]) + "</button>"; }
+        style: function () { var s = CHAR_STYLES.filter(function (x) { return x[0] === g.style; })[0]; return [s[1], "var(" + s[3] + ")"]; }, gvibe: function () { var v = VIBES.filter(function (x) { return x[0] === g.gvibe; })[0]; return [v[1], "var(" + v[2] + ")"]; }, rtone: function () { return [{ serious: "Serious", funny: "Funny", any: "Anything goes" }[g.rtone], "var(--gold)"]; }, mine: function () { return [g.mine ? "Yours: " + g.mine : "Surprise me", "var(--gold-2)"]; } };
+      for (var i = 0; i < idx && i < steps.length; i++) { var k = steps[i]; if (!labels[k] || (k !== "mine" && g[k] === undefined)) continue; var L = labels[k](); h += '<button type="button" class="crumb" data-jump="' + i + '" style="--cc:' + L[1] + '" title="Change">' + (L[2] || "<i></i>") + esc(L[0]) + "</button>"; }
       $("gnav").innerHTML = h;
       $("gsteps").innerHTML = steps.map(function (s, i) { return '<i class="' + (i < idx ? "done" : i === idx ? "now" : "") + '"></i>'; }).join("");
     }
@@ -2120,16 +2174,76 @@
       busy = false; crumbs();
       var key = steps[idx];
       if (key === "reveal") { reveal(); return; }
+      if (key === "mine") { mineStep(); return; }
       var D = stepDef(key);
       var html = '<p class="kicker">' + esc(D.kicker) + '</p><h2 class="gtitle">' + Intro.letters(D.title) + '</h2><p class="gsub">' + esc(D.sub) + '</p><div class="gopts' + (D.wide ? " wide" : "") + '">' + D.opts.map(opt).join("") + "</div>";
-      swap(html, function () { var cur = g[key]; if (cur) { var b = $("gbody").querySelector('[data-pick="' + cur + '"]'); if (b) b.classList.add("sel"); } setTimeout(function () { var f = $("gbody").querySelector(".gopt.sel") || $("gbody").querySelector(".gopt"); if (f) f.focus({ preventScroll: true }); }, 350); });
+      swap(html, function () { Intro.fit($("gbody").querySelector(".gtitle")); var cur = g[key]; if (cur) { var b = $("gbody").querySelector('[data-pick="' + cur + '"]'); if (b) b.classList.add("sel"); } setTimeout(function () { var f = $("gbody").querySelector(".gopt.sel") || $("gbody").querySelector(".gopt"); if (f) f.focus({ preventScroll: true }); }, 350); });
       SFX.whoosh();
+    }
+    function mineStep() {
+      var pos = g.minePos || "first";
+      var html = '<p class="kicker">' + esc(genLabel() + RACES[g.race].label + " " + CLASS_LABEL[g.cls]) + '</p><h2 class="gtitle">' + Intro.letters("Got a name in mind?") + '</h2>' +
+        '<p class="gsub">Type the name you want to keep, like your main\'s name, and every result is built around it. Or skip and let the forge surprise you.</p>' +
+        '<div class="gmine"><input id="gminein" type="text" maxlength="12" placeholder="e.g. Vark" autocomplete="off" autocapitalize="words" spellcheck="false" aria-label="Your name" value="' + esc(g.mine || "") + '">' +
+        '<div class="gmpos" role="group" aria-label="Where your name goes"><button type="button" data-mp="first" class="' + (pos === "first" ? "on" : "") + '">As first name</button><button type="button" data-mp="last" class="' + (pos === "last" ? "on" : "") + '">As last name</button></div>' +
+        '<p class="gmprev" id="gmprev">&nbsp;</p>' +
+        '<div class="rv-actions"><button type="button" class="gbtn primary" data-g="mineuse">&#9874; Forge around it</button><button type="button" class="gbtn" data-g="mineskip">Skip, surprise me</button></div></div>';
+      swap(html, function () {
+        Intro.fit($("gbody").querySelector(".gtitle"));
+        var inp = $("gminein");
+        inp.addEventListener("input", function () { clearTimeout(mineStep.t); mineStep.t = setTimeout(minePreview, 180); });
+        inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); useMine(); } });
+        minePreview();
+        setTimeout(function () { if (window.matchMedia("(hover: hover)").matches) inp.focus({ preventScroll: true }); }, 400);
+      });
+      SFX.whoosh();
+    }
+    function cleanMine() { var raw = ($("gminein") || {}).value || ""; raw = raw.trim(); var c = raw.replace(/[^A-Za-z]/g, ""); return { raw: raw, ok: c.length >= 2 && c.length <= 12 && c.length === raw.length, name: cap(c) }; }
+    function minePreview() {
+      var m = cleanMine(), el = $("gmprev"); if (!el) return;
+      if (!m.raw) { el.innerHTML = "Leave it blank to skip"; el.classList.remove("err"); return; }
+      if (!m.ok) { el.textContent = "Names are 2 to 12 letters, A to Z only, no spaces or symbols"; el.classList.add("err"); return; }
+      el.classList.remove("err");
+      var ex = withState({ race: g.race, cls: g.cls, gender: g.gen || "both", style: g.style, mine: m.name, minePos: g.minePos || "first", lockF: null, lockL: null }, function () { return forgeOnce(true).slice(0, 3); });
+      el.innerHTML = ex.length ? "Like " + ex.map(function (o) { return "<b>" + esc(o.f + " " + o.l) + "</b>"; }).join(" &middot; ") : "&nbsp;";
+    }
+    function useMine() {
+      var m = cleanMine();
+      if (!m.raw) { skipMine(); return; }
+      if (!m.ok) { minePreview(); SFX.land(false); var i = $("gminein"); i.classList.remove("shake"); void i.offsetWidth; i.classList.add("shake"); return; }
+      g.mine = m.name; g.minePos = g.minePos || "first"; delete g.lockF; delete g.lockL;
+      SFX.thud(1); idx++; render();
+    }
+    function skipMine() { delete g.mine; delete g.lockF; delete g.lockL; SFX.thud(0); idx++; render(); }
+    function nameParts(o) {
+      var mineF = g.mine && o.f === g.mine, mineL = g.mine && o.l === g.mine;
+      function part(txt, which, isMine, locked) {
+        if (g.mine && !isMine) return '<span class="w">' + esc(txt) + "</span>";
+        return '<span class="w"><button type="button" class="lk' + (isMine ? " mine" : locked ? " locked" : "") + '" data-lock="' + which + '" title="' + (isMine ? "Your name, it stays" : locked ? "Locked. Tap to unlock" : "Tap to lock this and forge around it") + '">' + esc(txt) + (isMine || locked ? '<svg class="lki" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>' : "") + "</button></span>";
+      }
+      return part(o.f, "f", mineF, g.lockF === o.f) + " " + part(o.l, "l", mineL, g.lockL === o.l);
+    }
+    function hintText() {
+      if (g.lockF || g.lockL) return "Locked <b>" + esc(g.lockF || g.lockL) + "</b>. Hit Forge again to build new names around it, or tap it to unlock.";
+      if (g.mine) return "Built around <b>" + esc(g.mine) + "</b>. Forge again for a new " + (g.minePos === "last" ? "first name." : "surname.");
+      return "Like half of it? Tap the first or last name to lock it, then Forge again.";
+    }
+    function toggleLock(which) {
+      if (!cur || path !== "char" || busy) return;
+      var v = which === "f" ? cur.f : cur.l;
+      if (g.mine && v === g.mine) { toast("That's your name, it stays"); return; }
+      if (g.mine) { toast("Your name is already locked. Forge again for a new " + (g.minePos === "last" ? "first name" : "surname")); return; }
+      // one half at a time, so Forge again always has something new to build
+      if (which === "f") { g.lockF = g.lockF === v ? null : v; g.lockL = null; } else { g.lockL = g.lockL === v ? null : v; g.lockF = null; }
+      SFX.star(!!(which === "f" ? g.lockF : g.lockL));
+      $("rvname").innerHTML = nameParts(cur); Intro.fit($("rvname")); $("rvhint").innerHTML = hintText();
     }
     function pick(id) {
       if (busy) return; busy = true;
       var key = steps[idx], btn = $("gbody").querySelector('[data-pick="' + id + '"]');
       if (key === "fac" && g.fac !== id) { delete g.race; delete g.cls; }
       if (key === "race" && g.race !== id) delete g.cls;
+      delete g.lockF; delete g.lockL;
       g[key] = id;
       if (btn) { btn.classList.add("picked"); btn.parentNode.classList.add("chosen"); }
       SFX.thud(idx % 3);
@@ -2165,7 +2279,7 @@
       return "One of <b>" + fmt(VAR.combo(race, cls, gen)) + "</b> possible names for " + (gen === "m" ? "a male " : gen === "f" ? "a female " : "a ") + esc(RACES[race].label) + " " + CLASS_LABEL[cls];
     }
     function stageHtml() {
-      return '<div class="rv"><div class="rv-top" id="rvtop"></div><p class="rv-combo" id="rvcombo"></p><div class="big" id="rvname">&nbsp;</div><div class="rv-meta" id="rvmeta"></div><p class="why" id="rvwhy">&nbsp;</p><p class="rv-odds" id="rvodds">&nbsp;</p><div class="rv-actions" id="rvact"></div><div class="rv-more" id="rvmore"></div><div class="rv-loop" id="rvloop"></div></div>';
+      return '<div class="rv"><div class="rv-top" id="rvtop"></div><p class="rv-combo" id="rvcombo"></p><div class="big" id="rvname">&nbsp;</div><div class="rv-meta" id="rvmeta"></div><p class="rv-hint" id="rvhint"></p><p class="why" id="rvwhy">&nbsp;</p><p class="rv-odds" id="rvodds">&nbsp;</p><div class="rv-actions" id="rvact"></div><div class="rv-more" id="rvmore"></div><div class="rv-loop" id="rvloop"></div></div>';
     }
     function actionsHtml() {
       var full = cur ? nameOf(cur).replace(/[<>]/g, "") : "", fav = cur && isFav(full);
@@ -2177,7 +2291,7 @@
     }
     function loopHtml() {
       var h = "";
-      if (path === "char") h += '<button type="button" data-g="restyle">&#8249; Change style</button><button type="button" data-jump="2">Change class</button>';
+      if (path === "char") h += '<button type="button" data-g="restyle">&#8249; Change style</button><button type="button" data-jump="2">Change class</button><button type="button" data-jump="5">' + (g.mine ? "Change my name" : "Type my own name") + "</button>";
       if (path === "guild") h += '<button type="button" data-g="restyle">&#8249; Change vibe</button>';
       if (path === "roll") h += '<button type="button" data-g="restyle">&#8249; Change tone</button>';
       return h + '<button type="button" data-g="restart">&#8635; Start over</button><button type="button" data-g="classic">Open in classic forge</button>';
@@ -2185,11 +2299,12 @@
     function land(o, fast) {
       cur = o;
       var nm = $("rvname"); if (!nm) return;
-      $("rvwhy").innerHTML = "&nbsp;"; $("rvmeta").innerHTML = "";
+      $("rvwhy").innerHTML = "&nbsp;"; $("rvmeta").innerHTML = ""; $("rvhint").innerHTML = "";
       $("rvtop").innerHTML = heroHtml(o); $("rvcombo").innerHTML = comboLine(o); $("rvcombo").style.setProperty("--cc", path === "guild" ? "var(--gold-2)" : CCOL[o.cls || g.cls]);
       Intro.spinText(nm, nameOf(o), 0, fast ? 380 : 900, function () {
         busy = false;
         if (!fast) { Intro.strike(true); nm.classList.add("nat"); } else SFX.land(false);
+        if (path === "char") { nm.innerHTML = nameParts(o); Intro.fit(nm); $("rvhint").innerHTML = hintText(); }
         var k = kindInfo(o), letters = path === "guild" ? o.name.length + " / 24 characters" : o.f.length + " + " + o.l.length + " letters";
         $("rvmeta").innerHTML = '<span class="pill" style="--pc:var(' + k[1] + ')">' + esc(k[0]) + '</span><span class="m">' + letters + "</span>" + riskDot(o);
         $("rvwhy").textContent = o.note || (path === "guild" ? "Freshly forged" : "Freshly forged for this hero");
@@ -2254,7 +2369,12 @@
       if (path === "char" || (path === "roll" && cur)) {
         var o = path === "roll" ? cur : null;
         state.race = o ? o.race : g.race; state.cls = o ? o.cls : g.cls; state.gender = o ? o.g : (g.gen || "both");
-        if (path === "char") { state.style = g.style; pressIn("#styles", "style", state.style); renderStyleNote(); }
+        if (path === "char") {
+          state.style = g.style; pressIn("#styles", "style", state.style); renderStyleNote();
+          state.lockF = g.lockF || null; state.lockL = g.lockL || null;
+          state.mine = g.mine || null; $("mine").value = g.mine || ""; $("mineclear").hidden = !g.mine;
+          if (g.mine) { state.minePos = g.minePos || "first"; pressIn("#minepos", "mp", state.minePos); $("minenote").classList.remove("err"); $("minenote").textContent = "Building every result around " + g.mine + ". Change the position or style, or press Forge for more."; }
+        }
         pressIn("#genders", "gender", state.gender); renderRaces(); renderClasses(); renderCouncil();
         Intro.close("char");
       } else if (path === "guild") {
@@ -2264,13 +2384,17 @@
     }
     function click(b) {
       if (b.dataset.pick !== undefined) { pick(b.dataset.pick); return; }
+      if (b.dataset.lock) { toggleLock(b.dataset.lock); return; }
+      if (b.dataset.mp) { g.minePos = b.dataset.mp; SFX.click(); b.parentNode.querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b); }); minePreview(); return; }
       if (b.dataset.jump !== undefined) { SFX.click(); jump(+b.dataset.jump); return; }
       if (b.dataset.more !== undefined) { var m = more[+b.dataset.more]; if (m && !busy) { more[+b.dataset.more] = cur; busy = true; land(m, true); } return; }
       var a = b.dataset.g; if (!a) return;
       if (a === "restart") { SFX.click(); start(path); }
       else if (a === "back") { SFX.click(); back(); }
       else if (a === "again") { if (!busy) { SFX.press(); reveal(); } }
-      else if (a === "restyle") { SFX.click(); jump(steps.length - 2); }
+      else if (a === "restyle") { SFX.click(); jump(path === "char" ? 4 : steps.length - 2); }
+      else if (a === "mineuse") useMine();
+      else if (a === "mineskip") skipMine();
       else if (a === "copy") { if (cur) { SFX.copy(); copy(nameOf(cur).replace(/[<>]/g, "")); } }
       else if (a === "fav") toggleFav();
       else if (a === "reroll") { SFX.press(); rerollName(); }
