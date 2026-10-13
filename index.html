@@ -113,6 +113,7 @@
   .btn.ghost:hover { border-color: var(--gold); color: var(--gold-2); }
 
   .modebar-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+  .side-btns { display: flex; gap: 8px; }
   .sound { display: inline-flex; align-items: center; gap: 6px; font: 700 12px/1 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; cursor: pointer; backdrop-filter: blur(3px); }
   .sound svg { width: 16px; height: 16px; } .sound .mute { display: none; }
   .sound[aria-pressed="false"] .w1, .sound[aria-pressed="false"] .w2 { display: none; } .sound[aria-pressed="false"] .mute { display: block; }
@@ -288,6 +289,127 @@
   tr:last-child td { border-bottom: 0; }
   .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--gold); color: var(--gold-ink); font-weight: 700; padding: 10px 16px; border-radius: 8px; box-shadow: 0 6px 20px #0008; }
   footer { margin-top: 40px; font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 14px; }
+  /* ===== motion intro ===== */
+  #intro { position: fixed; inset: 0; z-index: 100; background: #07090b; color: var(--ink); overflow: hidden; display: grid; place-items: center; font-family: var(--body); opacity: 1; transition: opacity .7s ease, transform .7s ease, filter .7s ease; }
+  #intro.out { opacity: 0; transform: scale(1.06); filter: blur(6px); pointer-events: none; }
+  #intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #intro .ib-bg { position: absolute; inset: -4%; background-size: cover; background-position: 50% 40%; opacity: 0; filter: saturate(.8) brightness(.45); transform: scale(1.12); transition: opacity 1.6s ease, transform 9s cubic-bezier(.2,.6,.2,1); }
+  #intro.bg-on .ib-bg { opacity: .38; transform: scale(1); }
+  #intro.bg-full .ib-bg { opacity: .6; }
+  #intro .t-title.glow { animation: ibGlow 2.2s ease-in-out; }
+  @keyframes ibGlow { 40% { text-shadow: 0 0 70px rgba(255,220,140,.9), 0 0 20px rgba(255,240,200,.8), 0 3px 0 #000; } }
+  #intro .ib-glow { position: absolute; left: 50%; top: 50%; width: 120vmax; height: 120vmax; translate: -50% -50%; background: radial-gradient(circle, rgba(217,169,70,.16) 0%, rgba(217,169,70,.05) 25%, transparent 55%); pointer-events: none; }
+  #intro .ib-vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 35%, #000c 100%); pointer-events: none; }
+  #intro .ib-flash { position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, #fff3d0 0%, #f0cb73 18%, transparent 60%); opacity: 0; pointer-events: none; mix-blend-mode: screen; }
+  #intro .ib-flash.go { animation: ibFlash .9s ease-out; }
+  @keyframes ibFlash { 0% { opacity: .95; } 100% { opacity: 0; } }
+  #intro .ib-ring { position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; translate: -50% -50%; border: 2px solid var(--gold-2); border-radius: 50%; opacity: 0; pointer-events: none; }
+  #intro .ib-ring.go { animation: ibRing 1.1s cubic-bezier(.1,.7,.3,1); }
+  @keyframes ibRing { 0% { opacity: 1; transform: scale(1); border-width: 6px; } 100% { opacity: 0; transform: scale(40); border-width: .2px; } }
+  #intro .shake { animation: ibShake .45s; }
+  @keyframes ibShake { 0%,100% { transform: none; } 20% { transform: translate(-6px,3px); } 40% { transform: translate(5px,-4px); } 60% { transform: translate(-3px,2px); } 80% { transform: translate(2px,-1px); } }
+
+  #intro .stage { position: relative; width: min(1000px, 100% - 32px); height: 100%; display: grid; place-items: center; }
+  #intro .scene { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; justify-items: center; text-align: center; gap: 18px; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility 0s .45s; }
+  #intro .scene.on { opacity: 1; visibility: visible; transition: opacity .45s ease, visibility 0s; }
+  #intro .scene.leave { opacity: 0; transform: translateY(-14px); transition: opacity .4s ease, transform .4s ease, visibility 0s .4s; }
+
+  /* gate */
+  #intro .gate-btn { position: relative; display: grid; place-items: center; width: 168px; height: 168px; border-radius: 50%; border: 0; background: radial-gradient(circle, #2a1d08 0%, #120d05 70%); color: var(--gold-2); cursor: pointer; box-shadow: 0 0 60px rgba(217,169,70,.25), inset 0 0 30px rgba(217,169,70,.25); }
+  #intro .gate-btn svg.sig { position: absolute; inset: -14px; width: calc(100% + 28px); height: calc(100% + 28px); animation: ibSpin 24s linear infinite; }
+  #intro .gate-btn svg.sig2 { animation-duration: 40s; animation-direction: reverse; inset: -28px; width: calc(100% + 56px); height: calc(100% + 56px); opacity: .55; }
+  @keyframes ibSpin { to { transform: rotate(360deg); } }
+  #intro .gate-btn .anvil { width: 64px; height: 64px; filter: drop-shadow(0 0 10px rgba(240,203,115,.6)); }
+  #intro .gate-btn:hover { box-shadow: 0 0 90px rgba(217,169,70,.45), inset 0 0 40px rgba(217,169,70,.4); }
+  #intro .gate-btn:hover .anvil { transform: scale(1.06); }
+  #intro .gate-btn .anvil { transition: transform .2s; }
+  #intro .gate-cap { font: 700 15px/1 var(--display); letter-spacing: .32em; text-transform: uppercase; color: var(--gold-2); margin-top: 26px; animation: ibPulse 2.2s ease-in-out infinite; }
+  #intro .gate-sub { color: var(--ink-3); font-size: 15px; margin: 0; }
+  @keyframes ibPulse { 50% { opacity: .45; } }
+
+  /* title */
+  #intro .t-title { font: 900 clamp(38px, 8.4vw, 104px)/1 var(--display); letter-spacing: .06em; margin: 0; color: var(--gold-2); text-shadow: 0 0 40px rgba(217,169,70,.35), 0 3px 0 #000; }
+  #intro .t-title .w { display: inline-block; white-space: nowrap; }
+  #intro .t-title .l { display: inline-block; opacity: 0; transform: translateY(-.6em) scale(1.6); filter: blur(10px); }
+  #intro .scene.on .t-title .l { animation: ibLetter .6s cubic-bezier(.2,1.4,.4,1) forwards; animation-delay: calc(var(--i) * 45ms); }
+  @keyframes ibLetter { to { opacity: 1; transform: none; filter: none; } }
+  #intro .t-title .sheen { background: linear-gradient(100deg, var(--gold-2) 0%, var(--gold-2) 40%, #fff8e2 50%, var(--gold-2) 60%, var(--gold-2) 100%); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: ibSheen 2.4s ease 1.1s; }
+  @keyframes ibSheen { from { background-position: 100% 0; } to { background-position: 0 0; } }
+  #intro .t-sub { font: 700 clamp(13px, 1.6vw, 17px)/1 var(--display); letter-spacing: .5em; text-transform: uppercase; color: var(--ink-2); margin: 0; opacity: 0; }
+  #intro .scene.on .t-sub { animation: ibFadeUp .8s ease 1.05s forwards; }
+  #intro .rule { height: 2px; width: min(560px, 80%); background: linear-gradient(90deg, transparent, var(--gold), transparent); transform: scaleX(0); }
+  #intro .scene.on .rule { animation: ibRule .9s cubic-bezier(.6,0,.2,1) .7s forwards; }
+  @keyframes ibRule { to { transform: scaleX(1); } }
+  @keyframes ibFadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  /* tagline */
+  #intro .tag { display: grid; gap: 4px; }
+  #intro .tag span { font: 900 clamp(34px, 7vw, 84px)/1.05 var(--display); letter-spacing: .03em; opacity: 0; transform: scale(2.2); filter: blur(12px); color: var(--ink); }
+  #intro .tag span.in { animation: ibPunch .45s cubic-bezier(.2,1.2,.3,1) forwards; }
+  #intro .tag span em { font-style: normal; color: var(--gold-2); text-shadow: 0 0 30px rgba(217,169,70,.5); }
+  @keyframes ibPunch { to { opacity: 1; transform: none; filter: none; } }
+
+  /* races */
+  #intro .roster { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(8px, 1.6vw, 18px); max-width: 880px; }
+  #intro .roster .rp { display: grid; justify-items: center; gap: 8px; opacity: 0; transform: translateY(30px) scale(.6); }
+  #intro .roster .rp.in { animation: ibPop .5s cubic-bezier(.2,1.5,.4,1) forwards; }
+  #intro .roster img { width: clamp(54px, 8vw, 84px); height: clamp(54px, 8vw, 84px); border-radius: 50%; object-fit: cover; border: 3px solid var(--fc); box-shadow: 0 0 24px color-mix(in srgb, var(--fc) 55%, transparent), 0 6px 14px #000c; }
+  #intro .roster small { font: 700 11px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
+  @keyframes ibPop { to { opacity: 1; transform: none; } }
+  #intro .stat-line { font: 700 clamp(14px, 2vw, 20px)/1.2 var(--display); letter-spacing: .22em; text-transform: uppercase; color: var(--ink-2); opacity: 0; }
+  #intro .stat-line b { color: var(--gold-2); }
+  #intro .stat-line .a { color: var(--alliance); } #intro .stat-line .h { color: var(--horde); }
+  #intro .stat-line.in { animation: ibFadeUp .6s ease forwards; }
+  #intro .kicker { font: 700 13px/1 var(--display); letter-spacing: .4em; text-transform: uppercase; color: var(--ink-3); margin: 0; }
+
+  /* slot machine */
+  #intro .slot { display: grid; justify-items: center; align-content: center; gap: 14px; min-height: 220px; }
+  #intro .slot .pill { font: 700 12px/1 var(--display); letter-spacing: .18em; text-transform: uppercase; color: #0d0d0d; background: var(--pc, var(--gold)); padding: 8px 14px; border-radius: 999px; transition: background .2s; box-shadow: 0 0 24px color-mix(in srgb, var(--pc, var(--gold)) 50%, transparent); }
+  #intro .slot .big { font: 900 clamp(30px, 7.4vw, 90px)/1.05 var(--display); letter-spacing: .03em; color: var(--ink); min-height: 1em; }
+  #intro .slot .big.lock { animation: ibLock .35s ease; color: var(--gold-2); text-shadow: 0 0 34px rgba(217,169,70,.55); }
+  #intro .slot .big .s { color: var(--ink-3); }
+  @keyframes ibLock { 0% { transform: scale(1.12); } 100% { transform: none; } }
+  #intro .slot .why { color: var(--ink-2); font-size: clamp(15px, 1.8vw, 19px); font-style: italic; min-height: 1.4em; max-width: 46ch; }
+  #intro .styles-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 760px; }
+  #intro .styles-row span { font: 700 11px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; padding: 7px 11px; border-radius: 999px; border: 1px solid var(--sc); color: var(--sc); opacity: .28; transition: opacity .25s, background .25s, color .25s; }
+  #intro .styles-row span.hit { opacity: 1; background: var(--sc); color: #0d0d0d; }
+
+  /* counter */
+  #intro .count-big { font: 900 clamp(64px, 15vw, 180px)/.95 var(--display); color: var(--gold-2); letter-spacing: .02em; text-shadow: 0 0 60px rgba(217,169,70,.45); font-variant-numeric: tabular-nums; }
+  #intro .count-cap { font: 700 clamp(14px, 2vw, 20px)/1.3 var(--display); letter-spacing: .3em; text-transform: uppercase; color: var(--ink); margin: 0; }
+  #intro .count-row { display: flex; gap: clamp(18px, 4vw, 48px); justify-content: center; flex-wrap: wrap; opacity: 0; }
+  #intro .count-row.in { animation: ibFadeUp .6s ease forwards; }
+  #intro .count-row div { display: grid; gap: 4px; }
+  #intro .count-row b { font: 900 clamp(24px, 3.6vw, 40px)/1 var(--display); color: var(--ink); font-variant-numeric: tabular-nums; }
+  #intro .count-row small { font: 700 11px/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-3); }
+
+  /* choose */
+  #intro .choose h2 { font: 900 clamp(30px, 5.4vw, 60px)/1 var(--display); color: var(--gold-2); margin: 0; letter-spacing: .04em; text-shadow: 0 0 40px rgba(217,169,70,.35), 0 3px 0 #000; }
+  #intro .paths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; width: 100%; max-width: 920px; margin-top: 10px; }
+  @media (max-width: 760px) { #intro .paths { grid-template-columns: 1fr; gap: 10px; } #intro .path { padding: 14px 16px !important; grid-template-columns: auto 1fr; column-gap: 14px !important; text-align: left !important; justify-items: start !important; } #intro .path .pi { grid-row: span 2; } #intro .path kbd { display: none; } }
+  #intro .path { position: relative; display: grid; justify-items: center; align-content: start; gap: 10px; padding: 26px 20px 22px; border-radius: 14px; border: 1px solid #3a4a52; background: linear-gradient(180deg, rgba(31,44,52,.88), rgba(14,19,22,.92)); color: var(--ink); cursor: pointer; font: inherit; text-align: center; opacity: 0; transform: translateY(40px); transition: transform .25s cubic-bezier(.2,1,.3,1), border-color .2s, box-shadow .25s; backdrop-filter: blur(6px); overflow: hidden; }
+  #intro .path::before { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, rgba(240,203,115,.18) 50%, transparent 70%); transform: translateX(-120%); transition: transform .6s ease; }
+  #intro .path:hover::before, #intro .path:focus-visible::before { transform: translateX(120%); }
+  #intro .path.in { animation: ibCard .7s cubic-bezier(.2,1.2,.3,1) forwards; animation-delay: calc(var(--i) * 120ms); }
+  @keyframes ibCard { to { opacity: 1; transform: none; } }
+  #intro .path:hover, #intro .path:focus-visible { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 18px 40px #000a, 0 0 50px rgba(217,169,70,.25); translate: 0 -6px; outline: none; }
+  #intro .path .pi { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle, #3a2a0c, #1a1206); border: 1.5px solid var(--gold); color: var(--gold-2); box-shadow: 0 0 20px rgba(217,169,70,.3); }
+  #intro .path .pi svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  #intro .path b { font: 900 clamp(18px, 2vw, 22px)/1.1 var(--display); letter-spacing: .04em; color: var(--gold-2); }
+  #intro .path span { color: var(--ink-2); font-size: 15px; line-height: 1.4; }
+  #intro .path kbd { font: 700 10px/1 var(--display); letter-spacing: .15em; color: var(--ink-3); border: 1px solid var(--line); border-radius: 4px; padding: 3px 6px; }
+  #intro .just { background: none; border: 0; color: var(--ink-3); font: 500 15px var(--body); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; opacity: 0; margin-top: 4px; }
+  #intro .just.in { animation: ibFadeUp .5s ease .6s forwards; }
+  #intro .just:hover { color: var(--ink); }
+
+  /* chrome */
+  #intro .skip { position: absolute; top: 18px; right: 18px; z-index: 3; font: 700 12px/1 var(--display); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2); background: rgba(14,19,22,.6); border: 1px solid var(--line); border-radius: 999px; padding: 10px 16px; cursor: pointer; backdrop-filter: blur(4px); }
+  #intro .skip:hover { color: var(--gold-2); border-color: var(--gold); }
+  #intro .progress { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-2)); transform-origin: left; transform: scaleX(0); z-index: 3; box-shadow: 0 0 12px var(--gold); }
+  #intro .progress.run { transition: transform var(--dur, 15s) linear; transform: scaleX(1); }
+  #intro .progress.done { opacity: 0; transition: opacity .4s; }
+  .sound.introbtn svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  @media (prefers-reduced-motion: reduce) { #intro *, #intro { animation: none !important; transition: none !important; } #intro .path, #intro .just, #intro .t-title .l { opacity: 1 !important; transform: none !important; filter: none !important; } }
 </style>
 </head>
 <body>
@@ -309,9 +431,12 @@
       <button type="button" class="mode" data-mode="guild" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24"><path d="M4 22V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>Guild<span class="ml">&nbsp;names</span></button>
       <button type="button" class="mode" data-mode="roll" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><circle cx="16" cy="8" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="8" cy="16" r="1.2" fill="currentColor"/><circle cx="16" cy="16" r="1.2" fill="currentColor"/></svg>Roll<span class="ml">&nbsp;me a character</span></button>
     </div>
+    <div class="side-btns">
+    <button type="button" class="sound introbtn" id="introbtn" title="Play the intro"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m10 8.5 5 3.5-5 3.5z" fill="currentColor"/></svg><span>Intro</span></button>
     <button type="button" class="sound" id="soundbtn" aria-pressed="true" title="Sound on. Click to mute.">
       <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path class="w1" d="M15.5 8.5a5 5 0 0 1 0 7"/><path class="w2" d="M19 5a9 9 0 0 1 0 14"/><path class="mute" d="m17 9 6 6m0-6-6 6"/></svg><span>Sound</span>
     </button>
+    </div>
     </div>
     <div class="char-only">
       <p class="label">Race</p>
@@ -458,6 +583,75 @@
   <footer>Council picks come from two AI experts, one on Warcraft lore and one on punchy compound names, who each scored the combined pool 5 to 1 (maximum 10). Celebrity names are twisted rather than used as-is, which gives them a better chance with the name filter. Fictional and historical names used straight may already be taken, so keep a backup.</footer>
 </div>
 <div class="toast" id="toast" hidden></div>
+<div id="intro" role="dialog" aria-modal="true" aria-label="Forever Name Forge intro" hidden>
+  <div class="ib-bg" id="ibbg"></div>
+  <div class="ib-glow"></div>
+  <canvas id="ibcanvas" aria-hidden="true"></canvas>
+  <div class="ib-vig"></div>
+  <div class="ib-ring" id="ibring"></div>
+  <div class="ib-flash" id="ibflash"></div>
+  <button type="button" class="skip" id="ibskip">Skip intro &#8250;</button>
+  <div class="stage" id="ibstage">
+    <section class="scene on" data-s="gate">
+      <button type="button" class="gate-btn" id="ibgo" aria-label="Enter the forge">
+        <svg class="sig" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="94" fill="none" stroke="#d9a946" stroke-width="1" stroke-dasharray="2 6" opacity=".8"/><circle cx="100" cy="100" r="86" fill="none" stroke="#d9a946" stroke-width=".6" opacity=".5"/><g fill="#f0cb73"><circle cx="100" cy="6" r="3"/><circle cx="194" cy="100" r="3"/><circle cx="100" cy="194" r="3"/><circle cx="6" cy="100" r="3"/></g></svg>
+        <svg class="sig sig2" viewBox="0 0 200 200" aria-hidden="true"><polygon points="100,4 183,148 17,148" fill="none" stroke="#d9a946" stroke-width=".7"/><polygon points="100,196 17,52 183,52" fill="none" stroke="#d9a946" stroke-width=".7"/></svg>
+        <svg class="anvil" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 20h40c0 6 6 10 14 10v4c-8 0-14 2-18 6H22c-3-3-8-5-14-5z" fill="#f0cb73"/><path d="M24 40h16l4 10H20z" fill="#d9a946"/><rect x="14" y="50" width="36" height="6" rx="1.5" fill="#b8892f"/><path d="M38 6l4 8M30 4l1 9M46 10l-3 6" stroke="#fff3d0" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <p class="gate-cap">Strike the anvil</p>
+      <p class="gate-sub">Turn your sound on</p>
+    </section>
+
+    <section class="scene" data-s="title">
+      <h1 class="t-title" id="ibtitle"></h1>
+      <div class="rule"></div>
+      <p class="t-sub">WoW Forever &middot; Character &amp; guild names</p>
+    </section>
+
+    <section class="scene" data-s="tag">
+      <div class="tag"><span>Every <em>race.</em></span><span>Every <em>class.</em></span><span>Every <em>name.</em></span></div>
+    </section>
+
+    <section class="scene" data-s="races">
+      <p class="kicker">Choose who you are</p>
+      <div class="roster" id="ibroster"></div>
+      <p class="stat-line" id="ibrstat"><b>9</b> races &middot; <b>9</b> classes &middot; <span class="a">Alliance</span> &amp; <span class="h">Horde</span> &middot; him or her</p>
+    </section>
+
+    <section class="scene" data-s="slot">
+      <p class="kicker">Pick a style. Or let fate decide.</p>
+      <div class="slot">
+        <span class="pill" id="ibpill">Pop culture</span>
+        <div class="big" id="ibname">&nbsp;</div>
+        <div class="why" id="ibwhy">&nbsp;</div>
+      </div>
+      <div class="styles-row" id="ibstyles"></div>
+    </section>
+
+    <section class="scene" data-s="count">
+      <div class="count-big" id="ibcount">0</div>
+      <p class="count-cap">hand-picked names</p>
+      <div class="count-row" id="ibcrow">
+        <div><b id="ibguilds">0</b><small>guild names</small></div>
+        <div><b>&infin;</b><small>forged on the fly</small></div>
+        <div><b>d20</b><small>to roll your fate</small></div>
+      </div>
+    </section>
+
+    <section class="scene choose" data-s="choose">
+      <p class="kicker">The forge is lit</p>
+      <h2>Choose your path</h2>
+      <div class="paths">
+        <button type="button" class="path" data-go="char" style="--i:0"><span class="pi"><svg viewBox="0 0 24 24"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/></svg></span><b>Name my hero</b><span>Pick race, class and style. Get twenty names that fit, lock the half you love and forge around it.</span><kbd>1</kbd></button>
+        <button type="button" class="path" data-go="guild" style="--i:1"><span class="pi"><svg viewBox="0 0 24 24"><path d="M4 22V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg></span><b>Raise a banner</b><span>Guild names from mythic gravitas to the meme your whole raid will laugh at. Alliance, Horde or both.</span><kbd>2</kbd></button>
+        <button type="button" class="path" data-go="roll" style="--i:2"><span class="pi"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><circle cx="16" cy="8" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="8" cy="16" r="1.2" fill="currentColor"/><circle cx="16" cy="16" r="1.2" fill="currentColor"/></svg></span><b>Roll my fate</b><span>Can't decide? The dice pick your race, class, gender and name. Three re-rolls. No take-backs.</span><kbd>3</kbd></button>
+      </div>
+      <button type="button" class="just" id="ibjust">Just take me to the forge</button>
+    </section>
+  </div>
+  <div class="progress" id="ibprog"></div>
+</div>
+
 
 <script>
 (function () {
@@ -687,6 +881,8 @@
       land: function (nat20) { noise(0.12, 0.22, 0, 900); tone(160, 0.18, "triangle", 0.25, 0, 90); if (nat20) { tone(880, 0.12, "sine", 0.14, 0.12); tone(1320, 0.3, "sine", 0.14, 0.24); } },
       count: function (n) { tone(n === 1 ? 740 : 560, 0.12, "sine", 0.16); tone(n === 1 ? 740 : 560, 0.12, "triangle", 0.05); },
       whoosh: function () { noise(0.35, 0.12, 0, 600); },
+      boom: function () { tone(70, 1.2, "sine", 0.5, 0, 38); tone(140, 0.5, "triangle", 0.2, 0, 60); noise(0.9, 0.35, 0, 300); noise(0.25, 0.2, 0, 3200); [880, 1320, 1760].forEach(function (f, i) { tone(f, 1.6, "sine", 0.05, 0.02 + i * 0.01); }); },
+      thud: function (i) { tone(110 - i * 12, 0.35, "sine", 0.4, 0, 55); noise(0.18, 0.18, 0, 500); tone([392, 466, 587][i % 3], 0.5, "triangle", 0.06, 0.02); },
       reveal: function () { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, 0.35, "sine", 0.16, i * 0.07); tone(f * 2, 0.25, "triangle", 0.03, i * 0.07); }); noise(0.5, 0.06, 0.2, 3000); },
       star: function (onOff) { tone(onOff ? 980 : 520, 0.09, "sine", 0.12); if (onOff) tone(1470, 0.12, "sine", 0.1, 0.06); },
       copy: function () { tone(1180, 0.05, "sine", 0.1); tone(1560, 0.07, "sine", 0.08, 0.05); }
@@ -1522,6 +1718,160 @@
   $("libcount").textContent = total.toLocaleString("en-GB");
   (function () { var b = $("soundbtn"), onNow = SFX.enabled(); b.setAttribute("aria-pressed", onNow); b.title = onNow ? "Sound on. Click to mute." : "Sound off. Click to unmute."; })();
   renderStyleNote(); renderRaces(); renderClasses(); renderResults(); renderFavs(); renderCouncil();
+  // ---------- motion intro ----------
+  var Intro = (function () {
+    var el = $("intro"), stage = $("ibstage"), cv = $("ibcanvas"), timers = [], raf = 0, running = false, phase = "gate", burst = 0;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var STY = { pop: ["Pop culture", "--pop"], screen: ["Screen & Page", "--screen"], history: ["History & Infamy", "--history"], meme: ["Meme", "--meme"], trades: ["Trades & Skills", "--trades"], epic: ["Epic", "--epic"], lore: ["Lore", "--lore"], forged: ["Forged", "--forged"], codex: ["Codex", "--codex"], guild: ["Guild", "--gold"] };
+    var SHOW = [["Clint", "Beastwood"], ["Count", "Gnosferatu"], ["Sap", "Happens"], ["Ada", "Lovegnome"], ["Leonidas", "Spearwall"], ["Wipe Club"]];
+    function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+    function clearAll() { timers.forEach(clearTimeout); timers = []; }
+    function show(name) {
+      phase = name;
+      stage.querySelectorAll(".scene").forEach(function (s) {
+        if (s.dataset.s === name) { s.classList.remove("leave"); s.classList.add("on"); }
+        else if (s.classList.contains("on")) { s.classList.remove("on"); s.classList.add("leave"); }
+        else s.classList.remove("leave");
+      });
+      $("ibskip").innerHTML = name === "choose" ? "Close &#10005;" : "Skip intro &#8250;";
+    }
+    function find(first, last) {
+      if (!last) { var g = DATA.guild.filter(function (x) { return x[0] === first; })[0]; return g ? { name: "<" + first + ">", why: g[1], k: "guild" } : null; }
+      var ks = ["pop", "screen", "history", "meme", "trades"];
+      for (var i = 0; i < ks.length; i++) { var hit = DATA[ks[i]].filter(function (x) { return x[0] === first && x[1] === last; })[0]; if (hit) return { name: first + " " + last, why: hit[2], k: ks[i] }; }
+      var e = DATA.epic.curated.filter(function (x) { return x[0] === first && x[1] === last; })[0];
+      return e ? { name: first + " " + last, why: e[2], k: "epic" } : null;
+    }
+    // embers
+    var P = [], W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), cx = cv.getContext("2d");
+    function size() { W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+    function spawn(boom) {
+      var a = Math.random() * Math.PI * 2, sp = boom ? 3 + Math.random() * 9 : 0;
+      P.push({ x: boom ? W / 2 : Math.random() * W, y: boom ? H / 2 : H + 10, vx: boom ? Math.cos(a) * sp : (Math.random() - .5) * .4, vy: boom ? Math.sin(a) * sp : -(.4 + Math.random() * 1.3), r: .6 + Math.random() * (boom ? 2.6 : 2), life: 0, max: boom ? 60 + Math.random() * 60 : 220 + Math.random() * 260, h: 28 + Math.random() * 22, f: Math.random() * 6 });
+    }
+    function frame() {
+      if (!running) return;
+      cx.clearRect(0, 0, W, H);
+      var target = phase === "gate" ? 70 : 140;
+      if (P.length < target) for (var n = 0; n < 3; n++) spawn(false);
+      if (burst > 0) { for (var b = 0; b < 40 && burst > 0; b++, burst--) spawn(true); }
+      cx.globalCompositeOperation = "lighter";
+      for (var i = P.length - 1; i >= 0; i--) {
+        var p = P[i]; p.life++; p.x += p.vx + Math.sin((p.life + p.f * 40) / 30) * .35; p.y += p.vy; p.vx *= .985; p.vy = p.vy * .985 - .012;
+        var t = p.life / p.max; if (t >= 1 || p.y < -20) { P.splice(i, 1); continue; }
+        var al = (t < .1 ? t * 10 : 1 - t) * (.6 + .4 * Math.sin(p.life / 4 + p.f));
+        var g = cx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+        g.addColorStop(0, "hsla(" + p.h + ",100%,70%," + al + ")"); g.addColorStop(1, "hsla(" + p.h + ",100%,50%,0)");
+        cx.fillStyle = g; cx.beginPath(); cx.arc(p.x, p.y, p.r * 4, 0, 6.283); cx.fill();
+      }
+      cx.globalCompositeOperation = "source-over";
+      raf = requestAnimationFrame(frame);
+    }
+    function strike() {
+      var f = $("ibflash"), r = $("ibring");
+      f.classList.remove("go"); r.classList.remove("go"); void f.offsetWidth; f.classList.add("go"); r.classList.add("go");
+      stage.classList.remove("shake"); void stage.offsetWidth; stage.classList.add("shake");
+      burst = 160; SFX.boom();
+    }
+    function buildTitle() {
+      var i = 0;
+      $("ibtitle").innerHTML = "Forever Name Forge".split(" ").map(function (w) {
+        return '<span class="w">' + w.split("").map(function (c) { return '<span class="l" style="--i:' + (i++) + '">' + c + "</span>"; }).join("") + "</span>";
+      }).join(" ");
+    }
+    function buildRoster() {
+      var R = [["human", "a", "Human"], ["dwarf", "a", "Dwarf"], ["nightelf", "a", "Night Elf"], ["gnome", "a", "Gnome"], ["skyborne_a", "a", "Skyborne"], ["orc", "h", "Orc"], ["undead", "h", "Undead"], ["tauren", "h", "Tauren"], ["troll", "h", "Troll"], ["skyborne_h", "h", "Skyborne"]];
+      $("ibroster").innerHTML = R.map(function (r, i) {
+        var src = DATA.portraits[r[0] + (i % 2 ? "_f" : "_m")] || DATA.portraits[r[0] + "_m"];
+        return '<div class="rp" style="--fc:var(' + (r[1] === "a" ? "--alliance" : "--horde") + ')"><img src="' + src + '" alt=""><small>' + r[2] + "</small></div>";
+      }).join("");
+      $("ibstyles").innerHTML = ["lore", "forged", "epic", "meme", "pop", "screen", "history", "trades", "codex", "guild"].map(function (k) { return '<span data-k="' + k + '" style="--sc:var(' + STY[k][1] + ')">' + esc(STY[k][0]) + "</span>"; }).join("");
+    }
+    function spin(item, at, dur) {
+      var A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", nm = item.name, steps = Math.round(dur / 45);
+      for (var s = 0; s <= steps; s++) (function (s) {
+        later(function () {
+          var lockN = Math.floor(nm.length * s / steps), out = "";
+          for (var c = 0; c < nm.length; c++) out += c < lockN || nm[c] === " " ? esc(nm[c]) : '<span class="s">' + A[Math.floor(Math.random() * 26)] + "</span>";
+          var big = $("ibname"); big.innerHTML = out; big.classList.remove("lock");
+          if (s % 2 === 0 && s < steps) SFX.tick();
+          if (s === steps) {
+            void big.offsetWidth; big.classList.add("lock"); SFX.land(false);
+            $("ibwhy").textContent = item.why; var st = STY[item.k]; $("ibpill").textContent = st[0]; $("ibpill").style.setProperty("--pc", "var(" + st[1] + ")");
+            $("ibstyles").querySelectorAll("span").forEach(function (x) { if (x.dataset.k === item.k) x.classList.add("hit"); });
+          }
+        }, at + s * 45);
+      })(s);
+      later(function () { $("ibwhy").innerHTML = "&nbsp;"; }, at - 1);
+    }
+    function countUp(id, to, at, dur) {
+      var n = 24;
+      for (var s = 0; s <= n; s++) (function (s) {
+        later(function () { var e = 1 - Math.pow(1 - s / n, 3); $(id).textContent = Math.round(to * e).toLocaleString("en-GB"); if (id === "ibcount" && s % 3 === 0) SFX.tick(); }, at + dur * s / n);
+      })(s);
+    }
+    function play() {
+      clearAll();
+      el.classList.add("bg-on");
+      var prog = $("ibprog"); prog.className = "progress"; prog.style.setProperty("--dur", "13.6s"); void prog.offsetWidth; prog.classList.add("run");
+      strike(); buildTitle(); $("ibtitle").classList.remove("glow"); show("title"); later(function () { SFX.whoosh(); }, 650); later(function () { $("ibtitle").classList.add("glow"); SFX.star(true); }, 1100);
+      later(function () { show("tag"); }, 2700);
+      $("ibstage").querySelectorAll(".tag span").forEach(function (sp, i) { sp.classList.remove("in"); later(function () { sp.classList.add("in"); SFX.thud(i); }, 2850 + i * 430); });
+      later(function () { show("races"); }, 4600);
+      $("ibroster").querySelectorAll(".rp").forEach(function (rp, i) { rp.classList.remove("in"); later(function () { rp.classList.add("in"); SFX.click(); }, 4750 + i * 105); });
+      $("ibrstat").classList.remove("in"); later(function () { $("ibrstat").classList.add("in"); SFX.whoosh(); }, 5950);
+      later(function () { show("slot"); $("ibstyles").querySelectorAll("span").forEach(function (x) { x.classList.remove("hit"); }); }, 7000);
+      var items = SHOW.map(function (x) { return find(x[0], x[1]); }).filter(Boolean), t = 7150;
+      items.forEach(function (it) { spin(it, t, 440); t += 780; });
+      var tc = Math.max(t + 200, 11600);
+      later(function () { show("count"); $("ibcount").textContent = "0"; $("ibcrow").classList.remove("in"); SFX.whoosh(); }, tc);
+      countUp("ibcount", charTotal, tc + 150, 1300); countUp("ibguilds", DATA.guild.length, tc + 900, 700);
+      later(function () { $("ibcrow").classList.add("in"); SFX.land(true); }, tc + 1500);
+      later(choose, tc + 2700);
+    }
+    function choose() {
+      clearAll(); el.classList.add("bg-on", "bg-full"); show("choose");
+      var prog = $("ibprog"); prog.classList.add("done");
+      el.querySelectorAll(".path").forEach(function (p) { p.classList.remove("in"); void p.offsetWidth; p.classList.add("in"); });
+      $("ibjust").classList.remove("in"); void $("ibjust").offsetWidth; $("ibjust").classList.add("in");
+      SFX.reveal();
+      later(function () { var f = el.querySelector(".path"); if (f && document.activeElement && el.contains(document.activeElement) === false) f.focus({ preventScroll: true }); }, 900);
+    }
+    function open(auto) {
+      el.hidden = false; el.classList.remove("out", "bg-on", "bg-full"); document.body.style.overflow = "hidden";
+      var hero = document.querySelector(".hero img"); if (hero) $("ibbg").style.backgroundImage = "url(" + hero.src + ")";
+      buildRoster(); size(); P = [];
+      if (!reduce) { running = true; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
+      if (reduce) { choose(); return; }
+      show("gate"); $("ibprog").className = "progress";
+      setTimeout(function () { $("ibgo").focus({ preventScroll: true }); }, 50);
+    }
+    function close(mode) {
+      clearAll(); try { localStorage.setItem("forge-intro-seen", "1"); } catch (e) {}
+      el.classList.add("out"); document.body.style.overflow = "";
+      if (mode) { setMode(mode); SFX.press(); }
+      setTimeout(function () { el.hidden = true; running = false; cancelAnimationFrame(raf); }, 720);
+      var target = document.getElementById("modes"); if (target) setTimeout(function () { target.querySelector('[aria-pressed="true"]').focus({ preventScroll: true }); }, 730);
+    }
+    el.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      e.stopPropagation();
+      if (b.id === "ibgo") { play(); return; }
+      if (b.id === "ibskip") { if (phase === "choose") close(null); else choose(); return; }
+      if (b.id === "ibjust") { close(null); return; }
+      if (b.dataset.go) { close(b.dataset.go); return; }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (el.hidden || el.classList.contains("out")) return;
+      if (e.key === "Escape") { e.preventDefault(); if (phase === "choose") close(null); else choose(); }
+      else if (phase === "choose" && /^[123]$/.test(e.key)) close(["char", "guild", "roll"][+e.key - 1]);
+    });
+    window.addEventListener("resize", function () { if (!el.hidden) size(); });
+    return { open: open, close: close };
+  })();
+  $("introbtn").addEventListener("click", function (e) { e.stopPropagation(); SFX.click(); Intro.open(false); });
+  (function () { var seen = null; try { seen = localStorage.getItem("forge-intro-seen"); } catch (e) {} if (!seen && !/[?&]nointro/.test(location.search)) Intro.open(true); })();
+
 })();
 </script>
 
