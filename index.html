@@ -290,7 +290,7 @@
   .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--gold); color: var(--gold-ink); font-weight: 700; padding: 10px 16px; border-radius: 8px; box-shadow: 0 6px 20px #0008; }
   footer { margin-top: 40px; font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 14px; }
   /* ===== motion intro ===== */
-  #intro { position: fixed; inset: 0; z-index: 100; background: #07090b; color: var(--ink); overflow: hidden; display: grid; place-items: center; font-family: var(--body); opacity: 1; transition: opacity .7s ease, transform .7s ease, filter .7s ease; }
+  #intro { position: fixed; inset: 0; z-index: 100; background: #07090b; color: var(--ink); overflow: hidden; overflow: clip; display: grid; place-items: center; font-family: var(--body); opacity: 1; transition: opacity .7s ease, transform .7s ease, filter .7s ease; }
   #intro.out { opacity: 0; transform: scale(1.06); filter: blur(6px); pointer-events: none; }
   #intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
   #intro .ib-bg { position: absolute; inset: -4%; background-size: cover; background-position: 50% 40%; opacity: 0; filter: saturate(.8) brightness(.45); transform: scale(1.12); transition: opacity 1.6s ease, transform 9s cubic-bezier(.2,.6,.2,1); }
@@ -410,6 +410,99 @@
   #intro .progress.done { opacity: 0; transition: opacity .4s; }
   .sound.introbtn svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   @media (prefers-reduced-motion: reduce) { #intro *, #intro { animation: none !important; transition: none !important; } #intro .path, #intro .just, #intro .t-title .l { opacity: 1 !important; transform: none !important; filter: none !important; } }
+  /* ===== guided mode ===== */
+  #intro .count-big.morph { animation: ibMorph .5s ease; }
+  @keyframes ibMorph { 0% { transform: scale(1); } 30% { transform: scale(1.12); filter: brightness(1.8); } 100% { transform: none; } }
+  #intro .count-cap .swap { display: inline-block; animation: ibFadeUp .45s ease; }
+  #intro .count-cap.big2 { color: var(--gold-2); }
+  #intro .exp .paths { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 760px; }
+  @media (max-width: 760px) { #intro .exp .paths { grid-template-columns: 1fr; } }
+  #intro .path .tagline { font: 700 11px/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-3); }
+  #intro .path.rec { border-color: color-mix(in srgb, var(--gold) 70%, #3a4a52); }
+  #intro .path.rec::after { content: "Recommended"; position: absolute; top: 12px; right: -34px; transform: rotate(35deg); background: var(--gold); color: var(--gold-ink); font: 700 10px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; padding: 5px 40px; }
+  #intro .back-link { position: absolute; top: 18px; left: 18px; z-index: 3; }
+  #intro .gnav { position: absolute; top: 16px; left: 16px; right: 170px; z-index: 3; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  #intro .gnav button, #intro .back-link { font: 700 11px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); background: rgba(14,19,22,.6); border: 1px solid var(--line); border-radius: 999px; padding: 9px 13px; cursor: pointer; backdrop-filter: blur(4px); display: inline-flex; align-items: center; gap: 6px; }
+  #intro .gnav button:hover, #intro .back-link:hover { color: var(--gold-2); border-color: var(--gold); }
+  #intro .gnav .crumb { color: var(--ink); border-color: color-mix(in srgb, var(--cc, var(--gold)) 60%, transparent); animation: ibPop .35s cubic-bezier(.2,1.5,.4,1); }
+  #intro .gnav .crumb i { width: 8px; height: 8px; border-radius: 50%; background: var(--cc, var(--gold)); display: inline-block; }
+  #intro .gnav .crumb img { width: 18px; height: 18px; border-radius: 50%; object-fit: cover; margin: -4px 0; }
+  #intro .gnav .crumb .ico { width: 14px; height: 14px; color: var(--cc); }
+  @media (max-width: 760px) { #intro .gnav { right: 16px; top: 64px; } #intro .gnav .crumb { display: none; } #intro [data-s=guide] { align-content: start; padding-top: 108px; } #intro .gbody { max-height: calc(100vh - 150px); max-height: calc(100dvh - 150px); } }
+  #intro .gsteps { position: absolute; left: 50%; bottom: 22px; translate: -50% 0; display: flex; gap: 8px; z-index: 3; }
+  #intro .gsteps i { width: 28px; height: 4px; border-radius: 2px; background: #ffffff22; transition: background .3s; }
+  #intro .gsteps i.done { background: var(--gold); } #intro .gsteps i.now { background: var(--gold-2); box-shadow: 0 0 10px var(--gold); }
+
+  #intro .gbody { display: grid; justify-items: center; gap: 14px; width: 100%; max-height: calc(100vh - 120px); overflow-y: auto; padding: 8px 4px 40px; scrollbar-width: thin; }
+  #intro .gbody > * { animation: ibFadeUp .5s ease both; }
+  #intro .gbody.out > * { animation: ibOut .28s ease forwards; }
+  @keyframes ibOut { to { opacity: 0; transform: translateY(-16px) scale(.98); filter: blur(4px); } }
+  #intro .gtitle { font: 900 clamp(30px, 5.4vw, 62px)/1.05 var(--display); color: var(--gold-2); margin: 0; letter-spacing: .03em; text-shadow: 0 0 40px rgba(217,169,70,.35), 0 3px 0 #000; }
+  #intro .gtitle .l { display: inline-block; opacity: 0; transform: translateY(-.5em) scale(1.4); filter: blur(8px); animation: ibLetter .5s cubic-bezier(.2,1.4,.4,1) forwards; animation-delay: calc(var(--i) * 28ms); }
+  #intro .gsub { color: var(--ink-2); margin: 0; font-size: clamp(15px, 1.7vw, 18px); max-width: 52ch; }
+  #intro .gopts { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; width: 100%; max-width: 980px; margin-top: 6px; }
+  #intro .gopt { --cc: var(--gold); position: relative; display: grid; justify-items: center; align-content: start; gap: 8px; width: var(--w, 180px); padding: 18px 14px 16px; border-radius: 14px; border: 1px solid #3a4a52; background: linear-gradient(180deg, rgba(31,44,52,.9), rgba(14,19,22,.94)); color: var(--ink); font: inherit; cursor: pointer; text-align: center; opacity: 0; transform: translateY(30px) scale(.9); animation: ibCard .55s cubic-bezier(.2,1.3,.3,1) forwards; animation-delay: calc(200ms + var(--i) * 70ms); transition: border-color .2s, box-shadow .25s, translate .25s cubic-bezier(.2,1,.3,1); backdrop-filter: blur(6px); overflow: hidden; }
+  #intro .gopt::before { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, color-mix(in srgb, var(--cc) 25%, transparent) 50%, transparent 70%); transform: translateX(-120%); transition: transform .6s ease; }
+  #intro .gopt:hover::before, #intro .gopt:focus-visible::before { transform: translateX(120%); }
+  #intro .gopt:hover, #intro .gopt:focus-visible { border-color: var(--cc); box-shadow: 0 0 0 1px var(--cc), 0 16px 34px #000a, 0 0 40px color-mix(in srgb, var(--cc) 30%, transparent); translate: 0 -5px; outline: none; }
+  #intro .gopt.sel { border-color: var(--cc); box-shadow: 0 0 0 1px var(--cc); }
+  #intro .gopt.picked { animation: ibPicked .5s ease forwards; border-color: var(--cc); box-shadow: 0 0 0 2px var(--cc), 0 0 60px color-mix(in srgb, var(--cc) 60%, transparent); }
+  @keyframes ibPicked { 0% { transform: none; } 35% { transform: scale(1.08); } 100% { transform: scale(1.03); } }
+  #intro .gopts.chosen .gopt:not(.picked) { animation: ibFall .35s ease forwards; }
+  @keyframes ibFall { from { opacity: 1; } to { opacity: 0; transform: translateY(20px) scale(.92); } }
+  #intro .gopt img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; border: 3px solid var(--cc); box-shadow: 0 0 22px color-mix(in srgb, var(--cc) 45%, transparent), 0 6px 14px #000c; }
+  #intro .gopt .duo { display: flex; } #intro .gopt .duo img { width: 64px; height: 64px; } #intro .gopt .duo img + img { margin-left: -16px; }
+  #intro .gopt .gi { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle, color-mix(in srgb, var(--cc) 30%, #000), #0b0f11); border: 2px solid var(--cc); color: var(--cc); box-shadow: 0 0 22px color-mix(in srgb, var(--cc) 35%, transparent); }
+  #intro .gopt .gi svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  #intro .gopt .gi .ico { width: 30px; height: 30px; }
+  #intro .gopt b { font: 900 clamp(16px, 1.7vw, 20px)/1.1 var(--display); letter-spacing: .04em; color: var(--cc); }
+  #intro .gopt .gs { color: var(--ink-2); font-size: 14px; line-height: 1.35; }
+  #intro .gopt .gx { font: 700 15px/1.2 var(--display); color: var(--ink); background: #0008; border: 1px dashed color-mix(in srgb, var(--cc) 50%, transparent); border-radius: 8px; padding: 6px 8px; width: 100%; }
+  #intro .gopt .gx small { display: block; font: 500 10px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+  #intro .gopt kbd { position: absolute; top: 8px; left: 8px; font: 700 10px/1 var(--display); color: var(--ink-3); border: 1px solid var(--line); border-radius: 4px; padding: 3px 5px; }
+  #intro .gopts.wide .gopt { --w: 300px; padding: 26px 20px 22px; }
+  #intro .gopts.wide .gopt img { width: 96px; height: 96px; }
+  @media (max-width: 760px) { #intro .gopt { --w: calc(50% - 8px) !important; padding: 12px 8px; } #intro .gopts.wide .gopt { --w: 100% !important; } #intro .gopt img { width: 60px; height: 60px; } #intro .gopt .gs { font-size: 13px; } #intro .gopt kbd { display: none; } }
+
+  /* reveal */
+  #intro .rv { display: grid; justify-items: center; gap: 10px; width: 100%; max-width: 900px; }
+  #intro .rv-top { display: flex; align-items: center; gap: 18px; justify-content: center; }
+  #intro .rv .crest-wrap { width: 112px; height: 112px; animation: ibPop .6s cubic-bezier(.2,1.5,.4,1) both; }
+  #intro .rv .portrait { width: 112px; height: 112px; }
+  #intro .rv-combo { font: 700 clamp(13px, 1.6vw, 16px)/1.3 var(--display); letter-spacing: .24em; text-transform: uppercase; color: var(--ink-2); margin: 0; }
+  #intro .rv-combo b { color: var(--cc); }
+  #intro .rv .big { font: 900 clamp(32px, 7vw, 86px)/1.05 var(--display); letter-spacing: .03em; color: var(--ink); min-height: 1.05em; }
+  #intro .rv .big .s { color: var(--ink-3); }
+  #intro .rv .big.lock { animation: ibLock .35s ease; color: var(--gold-2); text-shadow: 0 0 34px rgba(217,169,70,.55); }
+  #intro .rv .big.nat { animation: ibNat 1.2s ease; }
+  @keyframes ibNat { 0%, 100% { text-shadow: 0 0 34px rgba(217,169,70,.55); } 30% { text-shadow: 0 0 80px rgba(255,230,160,1), 0 0 20px #fff; } }
+  #intro .rv-meta { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; min-height: 30px; }
+  #intro .rv-meta .pill { font: 700 11px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; color: #0d0d0d; background: var(--pc, var(--gold)); padding: 7px 12px; border-radius: 999px; }
+  #intro .rv-meta .m { font-size: 14px; color: var(--ink-2); }
+  #intro .rv-meta .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+  #intro .rv .why { color: var(--ink-2); font-size: clamp(15px, 1.8vw, 19px); font-style: italic; min-height: 1.4em; max-width: 52ch; margin: 0; }
+  #intro .rv-odds { font: 700 12px/1.4 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-2); margin: 0; text-shadow: 0 1px 3px #000; }
+  #intro .rv-odds b { color: var(--gold-2); font-size: 15px; letter-spacing: .06em; }
+  #intro .rv-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 6px; }
+  #intro .gbtn { font: 700 13px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--ink); background: rgba(31,44,52,.85); border: 1px solid #3a4a52; border-radius: 999px; padding: 12px 18px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: border-color .2s, color .2s, box-shadow .2s, translate .2s; }
+  #intro .gbtn:hover { border-color: var(--gold); color: var(--gold-2); translate: 0 -2px; }
+  #intro .gbtn.primary { background: linear-gradient(180deg, var(--gold-2), var(--gold)); color: var(--gold-ink); border-color: var(--gold); box-shadow: 0 0 30px rgba(217,169,70,.4); }
+  #intro .gbtn.primary:hover { color: var(--gold-ink); box-shadow: 0 0 50px rgba(217,169,70,.6); }
+  #intro .gbtn.on { color: var(--gold-2); border-color: var(--gold); }
+  #intro .gbtn:disabled { opacity: .4; cursor: not-allowed; translate: none; }
+  #intro .gbtn .pips { display: inline-flex; gap: 3px; } #intro .gbtn .pips i { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-2); } #intro .gbtn .pips i.used { background: #ffffff25; }
+  #intro .rv-more { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 820px; }
+  #intro .rv-more p { width: 100%; margin: 6px 0 0; font: 700 11px/1 var(--display); letter-spacing: .24em; text-transform: uppercase; color: var(--ink-3); }
+  #intro .rv-more button { font: 700 15px/1 var(--display); color: var(--ink); background: rgba(14,19,22,.75); border: 1px solid var(--line); border-left: 3px solid var(--pc, var(--gold)); border-radius: 8px; padding: 10px 12px; cursor: pointer; opacity: 0; animation: ibPop .4s cubic-bezier(.2,1.5,.4,1) forwards; animation-delay: calc(var(--i) * 70ms); }
+  #intro .rv-more button:hover { border-color: var(--gold); color: var(--gold-2); }
+  #intro .rv-loop { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+  #intro .rv-loop button { background: none; border: 0; color: var(--ink-3); font: 500 15px var(--body); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  #intro .rv-loop button:hover { color: var(--ink); }
+  #intro .cd { font: 900 clamp(110px, 22vw, 240px)/1 var(--display); color: var(--gold-2); text-shadow: 0 0 80px rgba(217,169,70,.6); animation: ibCd .9s ease both; }
+  @keyframes ibCd { 0% { opacity: 0; transform: scale(2.4); filter: blur(12px); } 25% { opacity: 1; transform: none; filter: none; } 80% { opacity: 1; } 100% { opacity: 0; transform: scale(.7); } }
+  #intro .cd-hype { font: 700 clamp(16px, 2.2vw, 22px)/1 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-2); }
+  #intro .gbanner { width: 112px; height: 112px; border-radius: 50%; display: grid; place-items: center; border: 3px solid var(--cc); background: radial-gradient(circle, color-mix(in srgb, var(--cc) 30%, #000), #0b0f11); color: var(--cc); box-shadow: 0 0 30px color-mix(in srgb, var(--cc) 45%, transparent); animation: ibPop .6s cubic-bezier(.2,1.5,.4,1) both; }
+  #intro .gbanner svg { width: 52px; height: 52px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 </style>
 </head>
 <body>
@@ -432,6 +525,7 @@
       <button type="button" class="mode" data-mode="roll" aria-pressed="false"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><circle cx="16" cy="8" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="8" cy="16" r="1.2" fill="currentColor"/><circle cx="16" cy="16" r="1.2" fill="currentColor"/></svg>Roll<span class="ml">&nbsp;me a character</span></button>
     </div>
     <div class="side-btns">
+    <button type="button" class="sound introbtn" id="guidebtn" title="Step-by-step guided forge"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 15 9l7 .6-5.4 4.6L18.2 21 12 17.3 5.8 21l1.6-6.8L2 9.6 9 9z"/></svg><span>Guided</span></button>
     <button type="button" class="sound introbtn" id="introbtn" title="Play the intro"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m10 8.5 5 3.5-5 3.5z" fill="currentColor"/></svg><span>Intro</span></button>
     <button type="button" class="sound" id="soundbtn" aria-pressed="true" title="Sound on. Click to mute.">
       <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path class="w1" d="M15.5 8.5a5 5 0 0 1 0 7"/><path class="w2" d="M19 5a9 9 0 0 1 0 14"/><path class="mute" d="m17 9 6 6m0-6-6 6"/></svg><span>Sound</span>
@@ -591,6 +685,8 @@
   <div class="ib-ring" id="ibring"></div>
   <div class="ib-flash" id="ibflash"></div>
   <button type="button" class="skip" id="ibskip">Skip intro &#8250;</button>
+  <nav class="gnav" id="gnav" hidden></nav>
+  <div class="gsteps" id="gsteps" hidden></div>
   <div class="stage" id="ibstage">
     <section class="scene on" data-s="gate">
       <button type="button" class="gate-btn" id="ibgo" aria-label="Enter the forge">
@@ -630,7 +726,7 @@
 
     <section class="scene" data-s="count">
       <div class="count-big" id="ibcount">0</div>
-      <p class="count-cap">hand-picked names</p>
+      <p class="count-cap" id="ibccap">hand-picked names</p>
       <div class="count-row" id="ibcrow">
         <div><b id="ibguilds">0</b><small>guild names</small></div>
         <div><b>&infin;</b><small>forged on the fly</small></div>
@@ -638,15 +734,28 @@
       </div>
     </section>
 
-    <section class="scene choose" data-s="choose">
+    <section class="scene choose exp" data-s="exp">
       <p class="kicker">The forge is lit</p>
-      <h2>Choose your path</h2>
+      <h2>Choose your experience</h2>
+      <div class="paths">
+        <button type="button" class="path rec" data-exp="guided" style="--i:0"><span class="pi"><svg viewBox="0 0 24 24"><path d="M12 2 15 9l7 .6-5.4 4.6L18.2 21 12 17.3 5.8 21l1.6-6.8L2 9.6 9 9z"/></svg></span><b>Guided forge</b><span>One choice at a time with the full show: side, race, class, style, then a cinematic reveal. Loop it as many times as you like.</span><span class="tagline">Step by step</span><kbd>1</kbd></button>
+        <button type="button" class="path" data-exp="classic" style="--i:1"><span class="pi"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg></span><b>Classic forge</b><span>Every option on one page. Twenty names at a time, locks, filters and your shortlist. Fast when you know what you want.</span><span class="tagline">All in one</span><kbd>2</kbd></button>
+      </div>
+    </section>
+
+    <section class="scene choose" data-s="choose">
+      <p class="kicker" id="ibchkick">The forge is lit</p>
+      <h2 id="ibchtitle">Choose your path</h2>
       <div class="paths">
         <button type="button" class="path" data-go="char" style="--i:0"><span class="pi"><svg viewBox="0 0 24 24"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/></svg></span><b>Name my hero</b><span>Pick race, class and style. Get twenty names that fit, lock the half you love and forge around it.</span><kbd>1</kbd></button>
         <button type="button" class="path" data-go="guild" style="--i:1"><span class="pi"><svg viewBox="0 0 24 24"><path d="M4 22V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg></span><b>Raise a banner</b><span>Guild names from mythic gravitas to the meme your whole raid will laugh at. Alliance, Horde or both.</span><kbd>2</kbd></button>
         <button type="button" class="path" data-go="roll" style="--i:2"><span class="pi"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><circle cx="16" cy="8" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="8" cy="16" r="1.2" fill="currentColor"/><circle cx="16" cy="16" r="1.2" fill="currentColor"/></svg></span><b>Roll my fate</b><span>Can't decide? The dice pick your race, class, gender and name. Three re-rolls. No take-backs.</span><kbd>3</kbd></button>
       </div>
-      <button type="button" class="just" id="ibjust">Just take me to the forge</button>
+      <div class="rv-loop"><button type="button" class="just" id="ibexpback">&#8249; Change experience</button><button type="button" class="just" id="ibjust">Just take me to the forge</button></div>
+    </section>
+
+    <section class="scene" data-s="guide">
+      <div class="gbody" id="gbody"></div>
     </section>
   </div>
   <div class="progress" id="ibprog"></div>
@@ -1718,11 +1827,54 @@
   $("libcount").textContent = total.toLocaleString("en-GB");
   (function () { var b = $("soundbtn"), onNow = SFX.enabled(); b.setAttribute("aria-pressed", onNow); b.title = onNow ? "Sound on. Click to mute." : "Sound off. Click to unmute."; })();
   renderStyleNote(); renderRaces(); renderClasses(); renderResults(); renderFavs(); renderCouncil();
-  // ---------- motion intro ----------
+  // ---------- how many names can the forge make ----------
+  var VAR = (function () {
+    var cache = {}, total = null;
+    function uniq(a) { var o = {}; a.forEach(function (x) { o[x] = 1; }); return Object.keys(o).length; }
+    function firsts(race, g) { var src = g === "f" ? (DATA.fnames[race] || P[race]) : P[race]; return (src.first && src.first.length ? src.first : P[race].first).concat(src.punchy || []); }
+    function surnames(race, cls) {
+      var key = race + "|" + cls; if (cache[key]) return cache[key];
+      var R = S[race], C = CS[cls] || { E: [], V: [], N: [] }, set = {};
+      var E = R.E.concat(C.E), V = R.V.concat(C.V), N = R.N.concat(C.N);
+      function add(a, b) { var w = compound(a, b); if (w) set[w] = 1; }
+      E.forEach(function (e) { R.B.forEach(function (b) { add(e, b); }); R.O.forEach(function (o) { add(e, o); }); V.forEach(function (v) { add(e, v); }); });
+      N.forEach(function (n) { R.NV.forEach(function (v) { add(n, v); }); });
+      return (cache[key] = set);
+    }
+    function gl(g) { return g === "both" ? ["m", "f"] : [g]; }
+    function titles(g) { var t = []; gl(g).forEach(function (k) { t = t.concat(gpool(DATA.epic.titles, k)); }); return uniq(t); }
+    function epicFirsts(race, g) { var f = []; gl(g).forEach(function (k) { f = f.concat(gpool(DATA.epic.first, k), gpool(DATA.epic.godFirst, k), firsts(race, k)); }); return uniq(f); }
+    function fits(x, race, cls, g) { return (!x[3].length || x[3].indexOf(race) >= 0) && (!x[4].length || x[4].indexOf(cls) >= 0) && (g === "both" || !x[5] || x[5] === "n" || x[5] === g); }
+    function combo(race, cls, g) {
+      var fn = []; gl(g).forEach(function (k) { fn = fn.concat(firsts(race, k)); });
+      var n = uniq(fn) * Object.keys(surnames(race, cls)).length + epicFirsts(race, g) * titles(g);
+      ["meme", "pop", "screen", "history", "trades", "community"].forEach(function (k) { n += DATA[k].filter(function (x) { return fits(x, race, cls, g); }).length; });
+      n += (DATA.codex.c[race + "|" + cls] || []).filter(function (x) { return g === "both" || x[2] === (g === "f" ? 1 : 0); }).length;
+      n += (DATA.deep.deep[race + "|" + cls] || []).filter(function (x) { return g === "both" || x[2] === (g === "f" ? 1 : 0); }).length;
+      return n;
+    }
+    function all() {
+      if (total !== null) return total;
+      var t = 0, epicF = [];
+      ["m", "f"].forEach(function (k) { epicF = epicF.concat(gpool(DATA.epic.first, k), gpool(DATA.epic.godFirst, k)); });
+      Object.keys(RACES).forEach(function (race) {
+        var sur = {}; RACES[race].classes.forEach(function (c) { Object.assign(sur, surnames(race, c)); });
+        var fn = firsts(race, "m").concat(firsts(race, "f"));
+        t += uniq(fn) * (Object.keys(sur).length + titles("both"));
+      });
+      t += uniq(epicF) * titles("both");
+      t += charTotal + DATA.guild.length + GA.length * GN.length * 2 + GN.length * GO.length;
+      return (total = t);
+    }
+    return { combo: combo, all: all };
+  })();
+  function fmt(n) { return n.toLocaleString("en-GB"); }
+
+  // ---------- motion intro + guided forge ----------
   var Intro = (function () {
-    var el = $("intro"), stage = $("ibstage"), cv = $("ibcanvas"), timers = [], raf = 0, running = false, phase = "gate", burst = 0;
+    var el = $("intro"), stage = $("ibstage"), cv = $("ibcanvas"), timers = [], raf = 0, running = false, phase = "gate", burst = 0, exp = "classic";
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var STY = { pop: ["Pop culture", "--pop"], screen: ["Screen & Page", "--screen"], history: ["History & Infamy", "--history"], meme: ["Meme", "--meme"], trades: ["Trades & Skills", "--trades"], epic: ["Epic", "--epic"], lore: ["Lore", "--lore"], forged: ["Forged", "--forged"], codex: ["Codex", "--codex"], guild: ["Guild", "--gold"] };
+    var STY = { pop: ["Pop culture", "--pop"], screen: ["Screen & Page", "--screen"], history: ["History & Infamy", "--history"], meme: ["Meme", "--meme"], trades: ["Trades & Skills", "--trades"], epic: ["Epic", "--epic"], lore: ["Lore", "--lore"], forged: ["Forged", "--forged"], codex: ["Codex", "--codex"], community: ["Community", "--community"], council: ["Council", "--council"], deep: ["Community", "--community"], guild: ["Guild", "--gold"], mix: ["Mix", "--gold"] };
     var SHOW = [["Clint", "Beastwood"], ["Count", "Gnosferatu"], ["Sap", "Happens"], ["Ada", "Lovegnome"], ["Leonidas", "Spearwall"], ["Wipe Club"]];
     function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
     function clearAll() { timers.forEach(clearTimeout); timers = []; }
@@ -1733,7 +1885,9 @@
         else if (s.classList.contains("on")) { s.classList.remove("on"); s.classList.add("leave"); }
         else s.classList.remove("leave");
       });
-      $("ibskip").innerHTML = name === "choose" ? "Close &#10005;" : "Skip intro &#8250;";
+      var menu = name === "choose" || name === "exp" || name === "guide";
+      $("ibskip").innerHTML = menu ? "Close &#10005;" : "Skip intro &#8250;";
+      $("gnav").hidden = name !== "guide"; $("gsteps").hidden = name !== "guide";
     }
     function find(first, last) {
       if (!last) { var g = DATA.guild.filter(function (x) { return x[0] === first; })[0]; return g ? { name: "<" + first + ">", why: g[1], k: "guild" } : null; }
@@ -1743,42 +1897,37 @@
       return e ? { name: first + " " + last, why: e[2], k: "epic" } : null;
     }
     // embers
-    var P = [], W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), cx = cv.getContext("2d");
+    var P2 = [], W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), cx = cv.getContext("2d");
     function size() { W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); }
     function spawn(boom) {
       var a = Math.random() * Math.PI * 2, sp = boom ? 3 + Math.random() * 9 : 0;
-      P.push({ x: boom ? W / 2 : Math.random() * W, y: boom ? H / 2 : H + 10, vx: boom ? Math.cos(a) * sp : (Math.random() - .5) * .4, vy: boom ? Math.sin(a) * sp : -(.4 + Math.random() * 1.3), r: .6 + Math.random() * (boom ? 2.6 : 2), life: 0, max: boom ? 60 + Math.random() * 60 : 220 + Math.random() * 260, h: 28 + Math.random() * 22, f: Math.random() * 6 });
+      P2.push({ x: boom ? W / 2 : Math.random() * W, y: boom ? H / 2 : H + 10, vx: boom ? Math.cos(a) * sp : (Math.random() - .5) * .4, vy: boom ? Math.sin(a) * sp : -(.4 + Math.random() * 1.3), r: .6 + Math.random() * (boom ? 2.6 : 2), life: 0, max: boom ? 60 + Math.random() * 60 : 220 + Math.random() * 260, h: 28 + Math.random() * 22, f: Math.random() * 6 });
     }
     function frame() {
       if (!running) return;
       cx.clearRect(0, 0, W, H);
-      var target = phase === "gate" ? 70 : 140;
-      if (P.length < target) for (var n = 0; n < 3; n++) spawn(false);
+      var target = phase === "gate" ? 70 : phase === "guide" ? 90 : 140;
+      if (P2.length < target) for (var n = 0; n < 3; n++) spawn(false);
       if (burst > 0) { for (var b = 0; b < 40 && burst > 0; b++, burst--) spawn(true); }
       cx.globalCompositeOperation = "lighter";
-      for (var i = P.length - 1; i >= 0; i--) {
-        var p = P[i]; p.life++; p.x += p.vx + Math.sin((p.life + p.f * 40) / 30) * .35; p.y += p.vy; p.vx *= .985; p.vy = p.vy * .985 - .012;
-        var t = p.life / p.max; if (t >= 1 || p.y < -20) { P.splice(i, 1); continue; }
+      for (var i = P2.length - 1; i >= 0; i--) {
+        var p = P2[i]; p.life++; p.x += p.vx + Math.sin((p.life + p.f * 40) / 30) * .35; p.y += p.vy; p.vx *= .985; p.vy = p.vy * .985 - .012;
+        var t = p.life / p.max; if (t >= 1 || p.y < -20) { P2.splice(i, 1); continue; }
         var al = (t < .1 ? t * 10 : 1 - t) * (.6 + .4 * Math.sin(p.life / 4 + p.f));
-        var g = cx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
-        g.addColorStop(0, "hsla(" + p.h + ",100%,70%," + al + ")"); g.addColorStop(1, "hsla(" + p.h + ",100%,50%,0)");
-        cx.fillStyle = g; cx.beginPath(); cx.arc(p.x, p.y, p.r * 4, 0, 6.283); cx.fill();
+        var gr = cx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+        gr.addColorStop(0, "hsla(" + p.h + ",100%,70%," + al + ")"); gr.addColorStop(1, "hsla(" + p.h + ",100%,50%,0)");
+        cx.fillStyle = gr; cx.beginPath(); cx.arc(p.x, p.y, p.r * 4, 0, 6.283); cx.fill();
       }
       cx.globalCompositeOperation = "source-over";
       raf = requestAnimationFrame(frame);
     }
-    function strike() {
+    function strike(small) {
       var f = $("ibflash"), r = $("ibring");
       f.classList.remove("go"); r.classList.remove("go"); void f.offsetWidth; f.classList.add("go"); r.classList.add("go");
       stage.classList.remove("shake"); void stage.offsetWidth; stage.classList.add("shake");
-      burst = 160; SFX.boom();
+      burst = small ? 70 : 160; if (small) SFX.land(true); else SFX.boom();
     }
-    function buildTitle() {
-      var i = 0;
-      $("ibtitle").innerHTML = "Forever Name Forge".split(" ").map(function (w) {
-        return '<span class="w">' + w.split("").map(function (c) { return '<span class="l" style="--i:' + (i++) + '">' + c + "</span>"; }).join("") + "</span>";
-      }).join(" ");
-    }
+    function letters(text) { var i = 0; return text.split(" ").map(function (w) { return '<span class="w">' + w.split("").map(function (c) { return '<span class="l" style="--i:' + (i++) + '">' + esc(c) + "</span>"; }).join("") + "</span>"; }).join(" "); }
     function buildRoster() {
       var R = [["human", "a", "Human"], ["dwarf", "a", "Dwarf"], ["nightelf", "a", "Night Elf"], ["gnome", "a", "Gnome"], ["skyborne_a", "a", "Skyborne"], ["orc", "h", "Orc"], ["undead", "h", "Undead"], ["tauren", "h", "Tauren"], ["troll", "h", "Troll"], ["skyborne_h", "h", "Skyborne"]];
       $("ibroster").innerHTML = R.map(function (r, i) {
@@ -1787,62 +1936,78 @@
       }).join("");
       $("ibstyles").innerHTML = ["lore", "forged", "epic", "meme", "pop", "screen", "history", "trades", "codex", "guild"].map(function (k) { return '<span data-k="' + k + '" style="--sc:var(' + STY[k][1] + ')">' + esc(STY[k][0]) + "</span>"; }).join("");
     }
-    function spin(item, at, dur) {
-      var A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", nm = item.name, steps = Math.round(dur / 45);
+    // slot-machine text: scrambles, then locks letters left to right
+    function spinText(elm, text, at, dur, done, quietTicks) {
+      var A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", steps = Math.max(4, Math.round(dur / 45));
       for (var s = 0; s <= steps; s++) (function (s) {
         later(function () {
-          var lockN = Math.floor(nm.length * s / steps), out = "";
-          for (var c = 0; c < nm.length; c++) out += c < lockN || nm[c] === " " ? esc(nm[c]) : '<span class="s">' + A[Math.floor(Math.random() * 26)] + "</span>";
-          var big = $("ibname"); big.innerHTML = out; big.classList.remove("lock");
-          if (s % 2 === 0 && s < steps) SFX.tick();
-          if (s === steps) {
-            void big.offsetWidth; big.classList.add("lock"); SFX.land(false);
-            $("ibwhy").textContent = item.why; var st = STY[item.k]; $("ibpill").textContent = st[0]; $("ibpill").style.setProperty("--pc", "var(" + st[1] + ")");
-            $("ibstyles").querySelectorAll("span").forEach(function (x) { if (x.dataset.k === item.k) x.classList.add("hit"); });
-          }
+          var lockN = Math.floor(text.length * s / steps), out = "";
+          for (var c = 0; c < text.length; c++) out += c < lockN || /[ <>]/.test(text[c]) ? esc(text[c]) : '<span class="s">' + A[Math.floor(Math.random() * 26)] + "</span>";
+          elm.innerHTML = out; elm.classList.remove("lock");
+          if (s % 2 === 0 && s < steps && !quietTicks) SFX.tick();
+          if (s === steps) { void elm.offsetWidth; elm.classList.add("lock"); if (done) done(); }
         }, at + s * 45);
       })(s);
-      later(function () { $("ibwhy").innerHTML = "&nbsp;"; }, at - 1);
     }
-    function countUp(id, to, at, dur) {
+    function countUp(id, from, to, at, dur, ticks) {
       var n = 24;
       for (var s = 0; s <= n; s++) (function (s) {
-        later(function () { var e = 1 - Math.pow(1 - s / n, 3); $(id).textContent = Math.round(to * e).toLocaleString("en-GB"); if (id === "ibcount" && s % 3 === 0) SFX.tick(); }, at + dur * s / n);
+        later(function () { var e = 1 - Math.pow(1 - s / n, 3); $(id).textContent = fmt(Math.round(from + (to - from) * e)); if (ticks && s % 3 === 0) SFX.tick(); }, at + dur * s / n);
       })(s);
     }
     function play() {
       clearAll();
       el.classList.add("bg-on");
-      var prog = $("ibprog"); prog.className = "progress"; prog.style.setProperty("--dur", "13.6s"); void prog.offsetWidth; prog.classList.add("run");
-      strike(); buildTitle(); $("ibtitle").classList.remove("glow"); show("title"); later(function () { SFX.whoosh(); }, 650); later(function () { $("ibtitle").classList.add("glow"); SFX.star(true); }, 1100);
+      var prog = $("ibprog"); prog.className = "progress"; prog.style.setProperty("--dur", "16.2s"); void prog.offsetWidth; prog.classList.add("run");
+      strike(); $("ibtitle").innerHTML = letters("Forever Name Forge"); $("ibtitle").classList.remove("glow"); show("title");
+      later(function () { SFX.whoosh(); }, 650); later(function () { $("ibtitle").classList.add("glow"); SFX.star(true); }, 1100);
       later(function () { show("tag"); }, 2700);
-      $("ibstage").querySelectorAll(".tag span").forEach(function (sp, i) { sp.classList.remove("in"); later(function () { sp.classList.add("in"); SFX.thud(i); }, 2850 + i * 430); });
+      stage.querySelectorAll(".tag span").forEach(function (sp, i) { sp.classList.remove("in"); later(function () { sp.classList.add("in"); SFX.thud(i); }, 2850 + i * 430); });
       later(function () { show("races"); }, 4600);
       $("ibroster").querySelectorAll(".rp").forEach(function (rp, i) { rp.classList.remove("in"); later(function () { rp.classList.add("in"); SFX.click(); }, 4750 + i * 105); });
       $("ibrstat").classList.remove("in"); later(function () { $("ibrstat").classList.add("in"); SFX.whoosh(); }, 5950);
       later(function () { show("slot"); $("ibstyles").querySelectorAll("span").forEach(function (x) { x.classList.remove("hit"); }); }, 7000);
       var items = SHOW.map(function (x) { return find(x[0], x[1]); }).filter(Boolean), t = 7150;
-      items.forEach(function (it) { spin(it, t, 440); t += 780; });
-      var tc = Math.max(t + 200, 11600);
-      later(function () { show("count"); $("ibcount").textContent = "0"; $("ibcrow").classList.remove("in"); SFX.whoosh(); }, tc);
-      countUp("ibcount", charTotal, tc + 150, 1300); countUp("ibguilds", DATA.guild.length, tc + 900, 700);
-      later(function () { $("ibcrow").classList.add("in"); SFX.land(true); }, tc + 1500);
-      later(choose, tc + 2700);
+      items.forEach(function (it) {
+        later(function () { $("ibwhy").innerHTML = "&nbsp;"; }, t);
+        spinText($("ibname"), it.name, t, 440, function () {
+          SFX.land(false); $("ibwhy").textContent = it.why; var st = STY[it.k]; $("ibpill").textContent = st[0]; $("ibpill").style.setProperty("--pc", "var(" + st[1] + ")");
+          $("ibstyles").querySelectorAll("span").forEach(function (x) { if (x.dataset.k === it.k) x.classList.add("hit"); });
+        });
+        t += 780;
+      });
+      var tc = Math.max(t + 200, 11600), vars = VAR.all();
+      later(function () { show("count"); $("ibcount").textContent = "0"; $("ibccap").textContent = "hand-picked names"; $("ibccap").classList.remove("big2"); $("ibcrow").classList.remove("in"); SFX.whoosh(); }, tc);
+      countUp("ibcount", 0, charTotal, tc + 150, 1200, true);
+      // then the number keeps climbing to every name the forge can build
+      later(function () { var c = $("ibcount"); c.classList.remove("morph"); void c.offsetWidth; c.classList.add("morph"); strike(true); $("ibccap").innerHTML = '<span class="swap">possible names you can forge</span>'; $("ibccap").classList.add("big2"); }, tc + 1700);
+      countUp("ibcount", charTotal, vars, tc + 1750, 1500, true);
+      countUp("ibguilds", 0, DATA.guild.length, tc + 2600, 700, false);
+      later(function () { $("ibcrow").classList.add("in"); SFX.land(true); }, tc + 3300);
+      later(experience, tc + 4700);
     }
-    function choose() {
-      clearAll(); el.classList.add("bg-on", "bg-full"); show("choose");
-      var prog = $("ibprog"); prog.classList.add("done");
-      el.querySelectorAll(".path").forEach(function (p) { p.classList.remove("in"); void p.offsetWidth; p.classList.add("in"); });
-      $("ibjust").classList.remove("in"); void $("ibjust").offsetWidth; $("ibjust").classList.add("in");
+    function experience() {
+      clearAll(); el.classList.add("bg-on", "bg-full"); show("exp"); $("ibprog").classList.add("done");
+      el.querySelectorAll('[data-s="exp"] .path').forEach(function (p) { p.classList.remove("in"); void p.offsetWidth; p.classList.add("in"); });
       SFX.reveal();
-      later(function () { var f = el.querySelector(".path"); if (f && document.activeElement && el.contains(document.activeElement) === false) f.focus({ preventScroll: true }); }, 900);
     }
-    function open(auto) {
+    function choose(which) {
+      clearAll(); exp = which || exp; el.classList.add("bg-on", "bg-full"); show("choose");
+      $("ibprog").classList.add("done");
+      $("ibchkick").textContent = exp === "guided" ? "Guided forge" : "Classic forge";
+      $("ibchtitle").textContent = exp === "guided" ? "What are we forging?" : "Choose your path";
+      el.querySelectorAll('[data-s="choose"] .path').forEach(function (p) { p.classList.remove("in"); void p.offsetWidth; p.classList.add("in"); });
+      $("ibjust").classList.remove("in"); void $("ibjust").offsetWidth; $("ibjust").classList.add("in");
+      $("ibexpback").classList.remove("in"); void $("ibexpback").offsetWidth; $("ibexpback").classList.add("in");
+      SFX.whoosh();
+    }
+    function open(where) {
       el.hidden = false; el.classList.remove("out", "bg-on", "bg-full"); document.body.style.overflow = "hidden";
       var hero = document.querySelector(".hero img"); if (hero) $("ibbg").style.backgroundImage = "url(" + hero.src + ")";
-      buildRoster(); size(); P = [];
+      buildRoster(); size(); P2 = [];
       if (!reduce) { running = true; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
-      if (reduce) { choose(); return; }
+      if (where === "guided") { exp = "guided"; choose("guided"); return; }
+      if (reduce) { experience(); return; }
       show("gate"); $("ibprog").className = "progress";
       setTimeout(function () { $("ibgo").focus({ preventScroll: true }); }, 50);
     }
@@ -1851,26 +2016,280 @@
       el.classList.add("out"); document.body.style.overflow = "";
       if (mode) { setMode(mode); SFX.press(); }
       setTimeout(function () { el.hidden = true; running = false; cancelAnimationFrame(raf); }, 720);
-      var target = document.getElementById("modes"); if (target) setTimeout(function () { target.querySelector('[aria-pressed="true"]').focus({ preventScroll: true }); }, 730);
+      setTimeout(function () { var b = document.querySelector('#modes [aria-pressed="true"]'); if (b) b.focus({ preventScroll: true }); }, 730);
     }
+    function setExp(v) { exp = v; try { localStorage.setItem("forge-exp", v); } catch (e) {} }
     el.addEventListener("click", function (e) {
       var b = e.target.closest("button"); if (!b) return;
       e.stopPropagation();
       if (b.id === "ibgo") { play(); return; }
-      if (b.id === "ibskip") { if (phase === "choose") close(null); else choose(); return; }
-      if (b.id === "ibjust") { close(null); return; }
-      if (b.dataset.go) { close(b.dataset.go); return; }
+      if (b.id === "ibskip") { if (phase === "choose" || phase === "exp" || phase === "guide") close(null); else experience(); return; }
+      if (b.id === "ibjust") { setExp("classic"); close(null); return; }
+      if (b.id === "ibexpback") { SFX.click(); experience(); return; }
+      if (b.dataset.exp) { SFX.press(); setExp(b.dataset.exp); choose(b.dataset.exp); return; }
+      if (b.dataset.go) { if (exp === "guided") { SFX.press(); Guide.start(b.dataset.go); } else close(b.dataset.go); return; }
+      Guide.click(b);
     });
     document.addEventListener("keydown", function (e) {
       if (el.hidden || el.classList.contains("out")) return;
-      if (e.key === "Escape") { e.preventDefault(); if (phase === "choose") close(null); else choose(); }
-      else if (phase === "choose" && /^[123]$/.test(e.key)) close(["char", "guild", "roll"][+e.key - 1]);
+      if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+      if (e.key === "Escape") { e.preventDefault(); if (phase === "choose" || phase === "exp" || phase === "guide") close(null); else experience(); return; }
+      if (phase === "exp" && /^[12]$/.test(e.key)) { setExp(e.key === "1" ? "guided" : "classic"); choose(exp); return; }
+      if (phase === "choose" && /^[123]$/.test(e.key)) { var m = ["char", "guild", "roll"][+e.key - 1]; if (exp === "guided") Guide.start(m); else close(m); return; }
+      if (phase === "guide") Guide.key(e);
     });
     window.addEventListener("resize", function () { if (!el.hidden) size(); });
-    return { open: open, close: close };
+    el.addEventListener("scroll", function () { if (el.scrollTop || el.scrollLeft) { el.scrollTop = 0; el.scrollLeft = 0; } });
+    return { open: open, close: close, show: show, choose: choose, strike: strike, spinText: spinText, later: later, clearAll: clearAll, letters: letters, STY: STY };
   })();
-  $("introbtn").addEventListener("click", function (e) { e.stopPropagation(); SFX.click(); Intro.open(false); });
-  (function () { var seen = null; try { seen = localStorage.getItem("forge-intro-seen"); } catch (e) {} if (!seen && !/[?&]nointro/.test(location.search)) Intro.open(true); })();
+
+  var Guide = (function () {
+    var g = {}, path = null, idx = 0, steps = [], cur = null, more = [], busy = false;
+    var PATHS = { char: ["fac", "race", "cls", "gen", "style", "reveal"], guild: ["gfac", "gvibe", "reveal"], roll: ["rfac", "rtone", "reveal"] };
+    var SV = {
+      shield: '<svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M12 7v9M8.5 10.5h7"/></svg>',
+      axe: '<svg viewBox="0 0 24 24"><path d="M5 21 19 7"/><path d="M14 4c3 0 6 3 6 6l-4-1-3-3z"/><path d="M5 3l16 16"/><path d="M3 10c0-3 3-6 6-6L8 8l-3 3z"/></svg>',
+      dice: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><circle cx="16" cy="8" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="8" cy="16" r="1.2" fill="currentColor"/><circle cx="16" cy="16" r="1.2" fill="currentColor"/></svg>',
+      both: '<svg viewBox="0 0 24 24"><path d="M3 12h18"/><path d="m7 8-4 4 4 4"/><path d="m17 8 4 4-4 4"/></svg>',
+      sword: '<svg viewBox="0 0 24 24"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/></svg>',
+      smile: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg>',
+      star: '<svg viewBox="0 0 24 24"><path d="M12 2 15 9l7 .6-5.4 4.6L18.2 21 12 17.3 5.8 21l1.6-6.8L2 9.6 9 9z"/></svg>',
+      flag: '<svg viewBox="0 0 24 24"><path d="M4 22V4"/><path d="M4 4h13l-2 4 2 4H4"/></svg>'
+    };
+    var CHAR_STYLES = [["mix", "Mix of everything", "A little of every style", "--gold"], ["lore", "Lore", "Sounds straight out of the game", "--lore"], ["forged", "Forged", "Hard-hitting race and class compounds", "--forged"], ["epic", "Epic", "Gods, titans and titles", "--epic"], ["codex", "Codex", "Serious, ranked and unique", "--codex"], ["meme", "Meme", "Raid jokes that land on a nameplate", "--meme"], ["pop", "Pop culture", "Actors, directors and stars, twisted", "--pop"], ["screen", "Screen & Page", "Films and books, split in two", "--screen"], ["history", "History & Infamy", "Legends and villains, bent", "--history"], ["trades", "Trades & Skills", "Built from what you do", "--trades"]];
+    var VIBES = [["mix", "Mix", "--gold"], ["epic", "Epic", "--epic"], ["myth", "Mythic", "--history"], ["lore", "Warcraft", "--lore"], ["clever", "Clever", "--screen"], ["funny", "Funny", "--meme"], ["pop", "Pop culture", "--pop"], ["online", "Online picks", "--community"], ["gforged", "Forged", "--forged"]];
+    function withState(o, fn) { var keep = {}; Object.keys(o).forEach(function (k) { keep[k] = state[k]; state[k] = o[k]; }); try { return fn(); } finally { Object.keys(keep).forEach(function (k) { state[k] = keep[k]; }); } }
+    function charState(style) { return { race: g.race, cls: g.cls, gender: g.gen || "both", style: style || g.style, mine: null, lockF: null, lockL: null }; }
+    function racesFor(f) { return Object.keys(RACES).filter(function (r) { return RACES[r].faction === (f === "a" ? "alliance" : "horde") || r === "skyborne"; }); }
+    function classesFor(race, f) { return RACES[race].classes.filter(function (c) { return race !== "skyborne" || (f === "a" ? c !== "shaman" : c !== "mage"); }); }
+    function facCol(f) { return f === "a" ? "var(--alliance)" : f === "h" ? "var(--horde)" : "var(--sky)"; }
+    function opt(o, i) {
+      return '<button type="button" class="gopt" data-pick="' + esc(o.id) + '" style="--i:' + i + ";--cc:" + o.c + '"><kbd>' + (i + 1 < 10 ? i + 1 : "") + "</kbd>" + (o.img || "") + "<b>" + esc(o.label) + "</b>" + (o.sub ? '<span class="gs">' + esc(o.sub) + "</span>" : "") + (o.ex ? '<span class="gx"><small>' + esc(o.exl || "For example") + "</small>" + esc(o.ex) + "</span>" : "") + "</button>";
+    }
+    function stepDef(key) {
+      var D = { opts: [] };
+      if (key === "fac" || key === "gfac" || key === "rfac") {
+        D.kicker = key === "gfac" ? "Raise a banner" : key === "rfac" ? "Roll my fate" : "Name my hero";
+        D.title = key === "rfac" ? "Pick a side, or don't" : "Choose your side";
+        D.sub = key === "gfac" ? "Some names sound Alliance, some sound Horde, most work for both." : key === "rfac" ? "Lock a faction or let the dice decide everything." : "Your faction decides which races you can be.";
+        D.wide = true;
+        D.opts = [{ id: "a", label: "Alliance", sub: "Humans, Dwarves, Night Elves, Gnomes and the Skyborne High Order", c: "var(--alliance)", img: '<span class="gi">' + SV.shield + "</span>" },
+          { id: "h", label: "Horde", sub: "Orcs, Undead, Tauren, Trolls and the Skyborne Windshapers", c: "var(--horde)", img: '<span class="gi">' + SV.axe + "</span>" }];
+        if (key !== "fac") D.opts.push({ id: "any", label: key === "rfac" ? "Fate decides" : "Either side", sub: key === "rfac" ? "Any race, any faction. Full chaos." : "Names that work for any guild", c: "var(--gold)", img: '<span class="gi">' + (key === "rfac" ? SV.dice : SV.both) + "</span>" });
+      } else if (key === "race") {
+        D.kicker = "Name my hero"; D.title = "Choose your race"; D.sub = "Every race gets names built from its own culture.";
+        D.opts = racesFor(g.fac).map(function (r, i) { return { id: r, label: RACES[r].label + (r === "skyborne" ? (g.fac === "a" ? " (High Order)" : " (Windshaper)") : ""), sub: classesFor(r, g.fac).length + " classes", c: facCol(g.fac), img: '<img src="' + portrait(r, i % 2 ? "f" : "m", g.fac) + '" alt="">' }; });
+      } else if (key === "cls") {
+        D.kicker = RACES[g.race].label; D.title = "Choose your class"; D.sub = "Class flavour runs through the surnames: totems for shaman, curses for warlocks, traps for hunters.";
+        D.opts = classesFor(g.race, g.fac).map(function (c) { return { id: c, label: CLASS_LABEL[c], c: CCOL[c], img: '<span class="gi">' + icon(c) + "</span>" }; });
+      } else if (key === "gen") {
+        D.kicker = RACES[g.race].label + " " + CLASS_LABEL[g.cls]; D.title = "Him or her?"; D.sub = "First names change with gender. Either gives you both.";
+        var col = CCOL[g.cls];
+        D.wide = true;
+        D.opts = [{ id: "m", label: "Male", c: col, img: '<img src="' + portrait(g.race, "m", g.fac) + '" alt="">' }, { id: "f", label: "Female", c: col, img: '<img src="' + portrait(g.race, "f", g.fac) + '" alt="">' }, { id: "both", label: "Either", sub: "Show me both", c: "var(--gold)", img: '<span class="duo"><img src="' + portrait(g.race, "m", g.fac) + '" alt=""><img src="' + portrait(g.race, "f", g.fac) + '" alt=""></span>' }];
+      } else if (key === "style") {
+        D.kicker = genLabel() + RACES[g.race].label + " " + CLASS_LABEL[g.cls]; D.title = "Pick your style"; D.sub = "Each card shows a real name the forge just made for you.";
+        D.opts = CHAR_STYLES.map(function (s) { var ex = withState(charState(s[0]), function () { var r = forgeOnce(true); return r[0] ? r[0].f + " " + r[0].l : ""; }); return { id: s[0], label: s[1], sub: s[2], c: "var(" + s[3] + ")", ex: ex }; });
+      } else if (key === "gvibe") {
+        D.kicker = "Raise a banner"; D.title = "What's the vibe?"; D.sub = "From mythic gravitas to the meme your raid will laugh at.";
+        D.opts = VIBES.map(function (v) { var ex = withState({ gfac: g.gfac, gvibe: v[0] }, function () { var r = forgeGuildsOnce(true); return r[0] ? "<" + r[0].name + ">" : ""; }); return { id: v[0], label: v[1], sub: VIBE_NOTE[v[0]].split(". ")[0].replace(/\.$/, ""), c: "var(" + v[2] + ")", ex: ex }; });
+      } else if (key === "rtone") {
+        D.kicker = "Roll my fate"; D.title = "Serious or silly?"; D.sub = "Pick the kind of name the dice can land on.";
+        D.wide = true;
+        D.opts = [{ id: "serious", label: "Serious", sub: "Lore, forged, epic, codex and history", c: "var(--lore)", img: '<span class="gi">' + SV.sword + "</span>" }, { id: "funny", label: "Funny", sub: "Memes, pop culture, films and trades", c: "var(--meme)", img: '<span class="gi">' + SV.smile + "</span>" }, { id: "any", label: "Anything goes", sub: "Every style in the bag", c: "var(--gold)", img: '<span class="gi">' + SV.dice + "</span>" }];
+      }
+      return D;
+    }
+    function genLabel() { return g.gen === "m" ? "Male " : g.gen === "f" ? "Female " : ""; }
+    function crumbs() {
+      var h = '<button type="button" data-g="restart">&#8635; Start over</button><button type="button" data-g="back">&#8249; Back</button>';
+      var labels = { fac: function () { return [g.fac === "a" ? "Alliance" : "Horde", facCol(g.fac)]; }, gfac: function () { return [g.gfac === "a" ? "Alliance" : g.gfac === "h" ? "Horde" : "Either side", facCol(g.gfac === "any" ? "n" : g.gfac)]; }, rfac: function () { return [g.rfac === "a" ? "Alliance" : g.rfac === "h" ? "Horde" : "Fate decides", facCol(g.rfac === "any" ? "n" : g.rfac)]; },
+        race: function () { return [RACES[g.race].label, facCol(g.fac), '<img src="' + portrait(g.race, g.gen === "f" ? "f" : "m", g.fac) + '" alt="">']; }, cls: function () { return [CLASS_LABEL[g.cls], CCOL[g.cls], icon(g.cls)]; }, gen: function () { return [g.gen === "m" ? "Male" : g.gen === "f" ? "Female" : "Either", "var(--gold)"]; },
+        style: function () { var s = CHAR_STYLES.filter(function (x) { return x[0] === g.style; })[0]; return [s[1], "var(" + s[3] + ")"]; }, gvibe: function () { var v = VIBES.filter(function (x) { return x[0] === g.gvibe; })[0]; return [v[1], "var(" + v[2] + ")"]; }, rtone: function () { return [{ serious: "Serious", funny: "Funny", any: "Anything goes" }[g.rtone], "var(--gold)"]; } };
+      for (var i = 0; i < idx && i < steps.length; i++) { var k = steps[i]; if (!labels[k] || g[k === "fac" ? "fac" : k] === undefined) continue; var L = labels[k](); h += '<button type="button" class="crumb" data-jump="' + i + '" style="--cc:' + L[1] + '" title="Change">' + (L[2] || "<i></i>") + esc(L[0]) + "</button>"; }
+      $("gnav").innerHTML = h;
+      $("gsteps").innerHTML = steps.map(function (s, i) { return '<i class="' + (i < idx ? "done" : i === idx ? "now" : "") + '"></i>'; }).join("");
+    }
+    function swap(html, after) {
+      var body = $("gbody");
+      if (!body.innerHTML) { body.innerHTML = html; if (after) after(); return; }
+      body.classList.add("out");
+      setTimeout(function () { body.classList.remove("out"); body.innerHTML = html; body.scrollTop = 0; if (after) after(); }, 280);
+    }
+    function render() {
+      busy = false; crumbs();
+      var key = steps[idx];
+      if (key === "reveal") { reveal(); return; }
+      var D = stepDef(key);
+      var html = '<p class="kicker">' + esc(D.kicker) + '</p><h2 class="gtitle">' + Intro.letters(D.title) + '</h2><p class="gsub">' + esc(D.sub) + '</p><div class="gopts' + (D.wide ? " wide" : "") + '">' + D.opts.map(opt).join("") + "</div>";
+      swap(html, function () { var cur = g[key]; if (cur) { var b = $("gbody").querySelector('[data-pick="' + cur + '"]'); if (b) b.classList.add("sel"); } setTimeout(function () { var f = $("gbody").querySelector(".gopt.sel") || $("gbody").querySelector(".gopt"); if (f) f.focus({ preventScroll: true }); }, 350); });
+      SFX.whoosh();
+    }
+    function pick(id) {
+      if (busy) return; busy = true;
+      var key = steps[idx], btn = $("gbody").querySelector('[data-pick="' + id + '"]');
+      if (key === "fac" && g.fac !== id) { delete g.race; delete g.cls; }
+      if (key === "race" && g.race !== id) delete g.cls;
+      g[key] = id;
+      if (btn) { btn.classList.add("picked"); btn.parentNode.classList.add("chosen"); }
+      SFX.thud(idx % 3);
+      setTimeout(function () { idx++; render(); }, 420);
+    }
+    function start(p) {
+      path = p; steps = PATHS[p]; idx = 0; g = {}; $("gbody").innerHTML = "";
+      Intro.clearAll(); Intro.show("guide"); render();
+    }
+    function back() { if (idx === 0) { Intro.choose("guided"); return; } idx--; render(); }
+    function jump(i) { idx = i; render(); }
+
+    // ---------- reveals ----------
+    function nameOf(o) { return path === "guild" ? "<" + o.name + ">" : o.f + " " + o.l; }
+    function riskDot(o) { var r = path === "guild" ? guildRisk(o) : risk(o); var c = { g: "var(--meme)", a: "var(--gold)", r: "var(--horde)" }[r.c] || "var(--ink-3)"; return '<span class="m" title="' + esc(r.tip) + '"><span class="dot" style="background:' + c + '"></span>' + esc(r.t) + "</span>"; }
+    function kindInfo(o) {
+      if (path === "guild") { var v = VIBES.filter(function (x) { return x[0] === o.kind; })[0]; return [GUILD_LABEL[o.kind] || "Guild", v ? v[2] : "--gold"]; }
+      var s = Intro.STY[o.kind] || ["Forge", "--gold"]; return [KIND_LABEL[o.kind] || s[0], s[1]];
+    }
+    function heroHtml(o) {
+      if (path === "guild") return '<div class="gbanner" style="--cc:' + facCol(g.gfac === "any" ? "n" : g.gfac) + '">' + SV.flag + "</div>";
+      var race = o.race || g.race, cls = o.cls || g.cls, gen = o.g || (g.gen === "both" ? "m" : g.gen), fac = o.fac || g.fac;
+      return '<div class="crest-wrap" style="--cc:' + CCOL[cls] + '"><img class="portrait" src="' + portrait(race, gen, fac) + '" alt=""><div class="crest">' + icon(cls) + "</div></div>";
+    }
+    function comboLine(o) {
+      if (path === "guild") return "Guild name &middot; <b>" + esc(g.gfac === "a" ? "Alliance" : g.gfac === "h" ? "Horde" : "Either faction") + "</b>";
+      var race = o.race || g.race, cls = o.cls || g.cls, gen = o.g || g.gen, fac = o.fac || g.fac;
+      return (gen === "m" ? "Male " : gen === "f" ? "Female " : "") + esc(RACES[race].label) + ' <b style="--cc:' + CCOL[cls] + '">' + CLASS_LABEL[cls] + "</b> &middot; " + (fac === "a" ? "Alliance" : "Horde");
+    }
+    function oddsLine(o) {
+      if (path === "guild") return "One of <b>" + fmt(DATA.guild.length + GA.length * GN.length * 2 + GN.length * GO.length) + "</b> guild names in the forge";
+      var race = o.race || g.race, cls = o.cls || g.cls, gen = path === "roll" ? o.g : g.gen;
+      return "One of <b>" + fmt(VAR.combo(race, cls, gen)) + "</b> possible names for " + (gen === "m" ? "a male " : gen === "f" ? "a female " : "a ") + esc(RACES[race].label) + " " + CLASS_LABEL[cls];
+    }
+    function stageHtml() {
+      return '<div class="rv"><div class="rv-top" id="rvtop"></div><p class="rv-combo" id="rvcombo"></p><div class="big" id="rvname">&nbsp;</div><div class="rv-meta" id="rvmeta"></div><p class="why" id="rvwhy">&nbsp;</p><p class="rv-odds" id="rvodds">&nbsp;</p><div class="rv-actions" id="rvact"></div><div class="rv-more" id="rvmore"></div><div class="rv-loop" id="rvloop"></div></div>';
+    }
+    function actionsHtml() {
+      var full = cur ? nameOf(cur).replace(/[<>]/g, "") : "", fav = cur && isFav(full);
+      var h = path === "roll"
+        ? '<button type="button" class="gbtn primary" data-g="again">' + SV.dice.replace("<svg", '<svg class="ico"') + 'Roll again</button><button type="button" class="gbtn" data-g="reroll"' + (cur && cur.left ? "" : " disabled") + '>Name taken? Re-roll <span class="pips">' + [0, 1, 2].map(function (i) { return '<i class="' + (cur && i < cur.left ? "" : "used") + '"></i>'; }).join("") + "</span></button>"
+        : '<button type="button" class="gbtn primary" data-g="again">&#9874; Forge again</button>';
+      h += '<button type="button" class="gbtn" data-g="copy">&#10697; Copy</button><button type="button" class="gbtn' + (fav ? " on" : "") + '" data-g="fav">' + (fav ? "&#9733; Shortlisted" : "&#9734; Shortlist") + "</button>";
+      return h;
+    }
+    function loopHtml() {
+      var h = "";
+      if (path === "char") h += '<button type="button" data-g="restyle">&#8249; Change style</button><button type="button" data-jump="2">Change class</button>';
+      if (path === "guild") h += '<button type="button" data-g="restyle">&#8249; Change vibe</button>';
+      if (path === "roll") h += '<button type="button" data-g="restyle">&#8249; Change tone</button>';
+      return h + '<button type="button" data-g="restart">&#8635; Start over</button><button type="button" data-g="classic">Open in classic forge</button>';
+    }
+    function land(o, fast) {
+      cur = o;
+      var nm = $("rvname"); if (!nm) return;
+      $("rvwhy").innerHTML = "&nbsp;"; $("rvmeta").innerHTML = "";
+      $("rvtop").innerHTML = heroHtml(o); $("rvcombo").innerHTML = comboLine(o); $("rvcombo").style.setProperty("--cc", path === "guild" ? "var(--gold-2)" : CCOL[o.cls || g.cls]);
+      Intro.spinText(nm, nameOf(o), 0, fast ? 380 : 900, function () {
+        busy = false;
+        if (!fast) { Intro.strike(true); nm.classList.add("nat"); } else SFX.land(false);
+        var k = kindInfo(o), letters = path === "guild" ? o.name.length + " / 24 characters" : o.f.length + " + " + o.l.length + " letters";
+        $("rvmeta").innerHTML = '<span class="pill" style="--pc:var(' + k[1] + ')">' + esc(k[0]) + '</span><span class="m">' + letters + "</span>" + riskDot(o);
+        $("rvwhy").textContent = o.note || (path === "guild" ? "Freshly forged" : "Freshly forged for this hero");
+        $("rvodds").innerHTML = oddsLine(o);
+        $("rvact").innerHTML = actionsHtml(); $("rvloop").innerHTML = loopHtml();
+        $("rvmore").innerHTML = more.length ? "<p>Also from the forge</p>" + more.map(function (m, i) { var ki = kindInfo(m); return '<button type="button" data-more="' + i + '" style="--i:' + i + ";--pc:var(" + ki[1] + ')">' + esc(nameOf(m)) + "</button>"; }).join("") : "";
+      });
+    }
+    function batch() {
+      if (path === "char") { var r = withState(charState(), forge); return r; }
+      if (path === "guild") return withState({ gfac: g.gfac, gvibe: g.gvibe }, forgeGuilds);
+      return [];
+    }
+    function reveal() {
+      busy = true; cur = null;
+      swap(stageHtml(), function () {
+        $("rvact").innerHTML = ""; $("rvloop").innerHTML = "";
+        if (path === "roll") { countdown(); return; }
+        var list = batch(); more = list.slice(1, 9);
+        if (!list.length) { $("rvname").textContent = "Nothing fits"; busy = false; $("rvloop").innerHTML = loopHtml(); return; }
+        $("rvtop").innerHTML = ""; $("rvcombo").innerHTML = "";
+        Intro.later(function () { land(list[0], false); }, 250);
+      });
+    }
+    function countdown() {
+      var lines = shuffle(HYPE), n = 3;
+      $("rvtop").innerHTML = ""; $("rvcombo").innerHTML = "";
+      var nm = $("rvname");
+      function tickN() {
+        if (!$("rvname")) return;
+        if (n === 0) { nm.innerHTML = "&nbsp;"; $("rvwhy").innerHTML = "&nbsp;"; doRollReveal(); return; }
+        nm.innerHTML = '<div class="cd">' + n + "</div>"; $("rvwhy").innerHTML = '<span class="cd-hype">' + esc(lines[n]) + "</span>"; SFX.count(n);
+        n--; Intro.later(tickN, 1000);
+      }
+      tickN();
+    }
+    function rollWith(o) { var saved = roll; roll = o; try { return rollOnce(); } finally { roll = saved; } }
+    function doRollReveal() {
+      var res = null, opts = { fac: g.rfac || "any", cls: "any", gen: "any", style: g.rtone || "any" };
+      for (var i = 0; i < 20 && !res; i++) res = rollWith(opts);
+      if (!res) { $("rvname").textContent = "The dice rolled off the table"; busy = false; $("rvloop").innerHTML = loopHtml(); return; }
+      res.left = 3; more = []; lastRoll = res; remember(res);
+      land(res, false);
+    }
+    function rerollName() {
+      if (!cur || !cur.left || busy) return;
+      var r = null;
+      for (var i = 0; i < 30 && !r; i++) { var t = rollWith({ fac: cur.fac, cls: cur.cls, gen: cur.g, style: g.rtone || "any" }); if (t && t.race === cur.race && (t.f + t.l) !== (cur.f + cur.l)) r = t; }
+      if (!r) return;
+      r.left = cur.left - 1; var ix = rollHistory.indexOf(cur); if (ix >= 0) rollHistory[ix] = r; renderHistory(); lastRoll = r;
+      busy = true; land(r, true);
+    }
+    function toggleFav() {
+      if (!cur) return;
+      var full = nameOf(cur).replace(/[<>]/g, ""), i = -1;
+      state.favs.forEach(function (f, j) { if (f.name === full) i = j; });
+      if (i >= 0) state.favs.splice(i, 1);
+      else state.favs.push({ name: full, combo: path === "guild" ? "Guild" : (path === "roll" ? rollLabel(cur) : RACES[g.race].label + " " + CLASS_LABEL[g.cls]) });
+      saveFavs(); renderFavs(); SFX.star(i < 0); $("rvact").innerHTML = actionsHtml();
+    }
+    function toClassic() {
+      if (path === "char" || (path === "roll" && cur)) {
+        var o = path === "roll" ? cur : null;
+        state.race = o ? o.race : g.race; state.cls = o ? o.cls : g.cls; state.gender = o ? o.g : (g.gen || "both");
+        if (path === "char") { state.style = g.style; pressIn("#styles", "style", state.style); renderStyleNote(); }
+        pressIn("#genders", "gender", state.gender); renderRaces(); renderClasses(); renderCouncil();
+        Intro.close("char");
+      } else if (path === "guild") {
+        state.gfac = g.gfac; state.gvibe = g.gvibe; pressIn("#gfactions", "gf", state.gfac); pressIn("#vibes", "vibe", state.gvibe);
+        Intro.close("guild");
+      } else Intro.close("roll");
+    }
+    function click(b) {
+      if (b.dataset.pick !== undefined) { pick(b.dataset.pick); return; }
+      if (b.dataset.jump !== undefined) { SFX.click(); jump(+b.dataset.jump); return; }
+      if (b.dataset.more !== undefined) { var m = more[+b.dataset.more]; if (m && !busy) { more[+b.dataset.more] = cur; busy = true; land(m, true); } return; }
+      var a = b.dataset.g; if (!a) return;
+      if (a === "restart") { SFX.click(); start(path); }
+      else if (a === "back") { SFX.click(); back(); }
+      else if (a === "again") { if (!busy) { SFX.press(); reveal(); } }
+      else if (a === "restyle") { SFX.click(); jump(steps.length - 2); }
+      else if (a === "copy") { if (cur) { SFX.copy(); copy(nameOf(cur).replace(/[<>]/g, "")); } }
+      else if (a === "fav") toggleFav();
+      else if (a === "reroll") { SFX.press(); rerollName(); }
+      else if (a === "classic") toClassic();
+    }
+    function key(e) {
+      if (steps[idx] !== "reveal" && /^[1-9]$/.test(e.key)) { var o = $("gbody").querySelectorAll(".gopt")[+e.key - 1]; if (o) { e.preventDefault(); pick(o.dataset.pick); } return; }
+      if (e.key === "Backspace" || (e.key === "ArrowLeft" && e.altKey)) { e.preventDefault(); back(); return; }
+      if (steps[idx] === "reveal" && (e.key === "Enter" || e.key === " ") && document.activeElement && !document.activeElement.closest("#intro button")) { e.preventDefault(); if (!busy) reveal(); }
+    }
+    return { start: start, click: click, key: key };
+  })();
+  $("introbtn").addEventListener("click", function (e) { e.stopPropagation(); SFX.click(); Intro.open(); });
+  $("guidebtn").addEventListener("click", function (e) { e.stopPropagation(); SFX.click(); Intro.open("guided"); });
+  (function () {
+    var seen = null, ex = null; try { seen = localStorage.getItem("forge-intro-seen"); ex = localStorage.getItem("forge-exp"); } catch (e) {}
+    if (/[?&]nointro/.test(location.search)) return;
+    if (!seen) Intro.open(); else if (ex === "guided") Intro.open("guided");
+  })();
 
 })();
 </script>
